@@ -1,0 +1,21 @@
+
+name: datavis1
+channels:
+  - anaconda
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9.7
+  - ipykernel
+  - nbformat
+  - numpy
+  - pandas
+  - tqdm
+  - matplotlib
+  - plotly
+  - scikit-learn
+  - dash
+  - jupyter-dash
+  - dash-bootstrap-components
+  - python-kaleido
+  - psycopg2
