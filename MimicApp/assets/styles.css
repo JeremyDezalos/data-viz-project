@@ -1,0 +1,113 @@
+/* .container {  display: grid;
+  grid-template-rows: auto 1fr 100px;
+  grid-auto-columns: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+}
+
+.header {  display: grid;
+  grid-template-columns: 1.9fr 0.3fr 0.8fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "header-title . header-logos"
+    "header-desc . ."
+    ". . status-db";
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.header-logos {  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  justify-items: stretch;
+  align-items: stretch;
+  grid-template-areas:
+    "logo-epfl logo-digi";
+  grid-area: header-logos;
+}
+
+.logo-digi { grid-area: logo-digi; }
+
+.logo-epfl {
+  justify-self: stretch;
+  align-self: stretch;
+  grid-area: logo-epfl;
+}
+
+.status-db { grid-area: status-db; }
+
+.header-title { grid-area: header-title; }
+
+.header-desc { grid-area: header-desc; }
+
+.body {  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: 1fr;
+  gap: 0px 10px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "filt vis";
+  grid-area: 2 / 1 / 3 / 2;
+}
+
+.vis {  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+  gap: 10px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "vis-header"
+    "vis-body";
+  grid-area: vis;
+}
+
+.vis-header { grid-area: vis-header; }
+
+.vis-body { grid-area: vis-body; }
+
+.filt {  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 100px auto auto;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "filt-header"
+    "filt-body"
+    "filt-footer";
+  grid-area: filt;
+}
+
+.filt-header { grid-area: filt-header; }
+
+.filt-body { grid-area: filt-body; }
+
+.filt-footer { grid-area: filt-footer; }
+
+.footer { grid-area: 3 / 1 / 4 / 2; } */
+
+
+
+
+.container {  display: grid;
+  grid-template-rows: auto 1fr 100px;
+  grid-auto-columns: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+}
+
+.header { grid-area: 1 / 1 / 2 / 2; }
+
+.body {  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    ".";
+  grid-area: 2 / 1 / 3 / 2;
+}
+
+.footer { grid-area: 3 / 1 / 4 / 2; }

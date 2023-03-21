@@ -19,3 +19,4 @@ dependencies:
   - dash-bootstrap-components
   - python-kaleido
   - psycopg2
+  - sqlalchemy
