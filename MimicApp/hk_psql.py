@@ -18,7 +18,7 @@ ADD_DATA = "C:\\DATA\\data\\raw\\mimic4\\lookup\\"
 ADD_DATA="C:\\DATA\\data\\processed\\MimicApp\\lookup\\"
 ADD_DATA="../resources/data1/lookup/"
 
-DBNAME=''
+DBNAME=os.environ['psql_dbname']
 
 
 
