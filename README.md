@@ -29,6 +29,8 @@ python index.py --dbname <database-name> --psql_pass <database-password>
 
 You should be able to see the forwarded port from [http://127.0.0.1:8050](http://127.0.0.1:8050). Select `Visualize a cohort` from top. select 'cohort1' from the dropdown menu and select `load`. DONE!
 
+* you can use `MimicApp/psql2csv.ipynb` to convert database to csv files which will be saved in `MimicApp/datasets/<cohort-name>` (you should modify the absolute PATH in the notebook)
+
 # M1: Data Exploration (April 12)
 
 
