@@ -31,7 +31,7 @@ ADD_DATA = "C:\\DATA\\data\\raw\\mimic4\\lookup\\"
 ADD_DATA = "/mlodata1/hokarami/tedam/MimicApp/lookup/"
 ADD_DATA="C:\\DATA\\data\\processed\\MimicApp\\lookup\\"
 ADD_DATA="../resources/data1/lookup/"
-DBNAME = 'datavis'
+DBNAME = os.environ['psql_dbname']
 MYPASS = os.environ['psql_pass']
 
 d_labitems = pd.read_csv(ADD_DATA+'d_labitems.csv')
@@ -1839,9 +1839,7 @@ def save_varsds(n_clicks, data, selected_rows, name2save='backup' ):
     raise PreventUpdate
 
 
-if __name__ == '__main__':
-    print('hi')
-    term
+
 
 
 

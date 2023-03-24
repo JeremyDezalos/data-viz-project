@@ -65,10 +65,20 @@ if __name__ == '__main__':
 
     print('hisdsf')
     parser = argparse.ArgumentParser()
-    parser.add_argument('-psql_pass', type=str, default='Hkmypassword1374!', help='password for the psql')    
+
+    parser.add_argument('--dbname', type=str, default='datavis', help='name of the database') 
+
+    parser.add_argument('--pre_schema', type=str, default='', help='pre_schema') 
+
+ 
+    parser.add_argument('--psql_pass', type=str, default='Hkmypassword1374!', help='password for the psql')    
     
     opt = parser.parse_args()
     
+
+    os.environ['psql_dbname'] = opt.dbname
+    os.environ['psql_pre_schema'] = opt.pre_schema
+
     os.environ['psql_pass'] = opt.psql_pass
 
     app = create_app()

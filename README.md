@@ -12,7 +12,7 @@ conda activate datavis1
 # Installing MIMIC-APP
 
 * install psql and pgAdmin(the interface)
-* create a new database `datavis` in pgAdmin ().
+* create a new database `<database-name>=datavis` with a password `<database-password>` in pgAdmin ().
 * create these 3 empty schemas: `cohort1_mimic_core`|`cohort1_mimic_hosp`|`cohort1_mimic_icu`
 * Download backup files from [this link](https://drive.switch.ch/index.php/s/ys3CYA812seZTUy)
 * Update created schemas by restoring from downloaded backup files ([instructions](https://hevodata.com/learn/pgadmin-backup-database/)).
@@ -24,7 +24,7 @@ Now, everything is all setup! To run the MimicApp:
 conda activate datavis1
 
 cd MimicApp
-python index.py -psql_pass <your-database-password>
+python index.py --dbname <database-name> --psql_pass <database-password>
 ```
 
 You should be able to see the forwarded port from [http://127.0.0.1:8050](http://127.0.0.1:8050). Select `Visualize a cohort` from top. select 'cohort1' from the dropdown menu and select `load`. DONE!
