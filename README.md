@@ -14,7 +14,7 @@ conda activate datavis1
 * install psql and pgAdmin(the interface)
 * create a new database `<database-name>=datavis` with a password `<database-password>` in pgAdmin ().
 * create these 3 empty schemas: `cohort1_mimic_core`|`cohort1_mimic_hosp`|`cohort1_mimic_icu`
-* Download backup files from [this link](https://drive.switch.ch/index.php/s/ys3CYA812seZTUy)
+* Download backup files from [this link](https://drive.switch.ch/index.php/s/PZjZcXRxBeiw1fC)
 * Update created schemas by restoring from downloaded backup files ([instructions](https://hevodata.com/learn/pgadmin-backup-database/)).
 * Add `lookup` folder ([link](https://drive.switch.ch/index.php/s/iK64Uyq04FabWHA)) to `resources/data1/lookup`
 

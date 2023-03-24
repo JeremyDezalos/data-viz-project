@@ -1,4 +1,4 @@
-
+import os
 
 # Import libraries
 from xml.etree.ElementTree import Comment
@@ -18,7 +18,7 @@ ADD_DATA = "C:\\DATA\\data\\raw\\mimic4\\lookup\\"
 ADD_DATA="C:\\DATA\\data\\processed\\MimicApp\\lookup\\"
 ADD_DATA="../resources/data1/lookup/"
 
-DBNAME='datavis'
+DBNAME=''
 
 
 
@@ -111,7 +111,7 @@ def create_db(dbname):
 def connect_psql(dbname, mypass='Hkmypassword1374!'):
 
 
-
+    DBNAME = dbname
     # information used to create a database connection
     sqluser = 'postgres'
     # dbname = DBNAME
