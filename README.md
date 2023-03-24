@@ -30,3 +30,15 @@ python index.py
 You should be able to see the forwarded port from [http://127.0.0.1:8050](http://127.0.0.1:8050). Select `Visualize a cohort` from top. select 'cohort1' from the dropdown menu and select `load`. DONE!
 
 # M1: Data Exploration (April 12)
+
+
+
+
+# Questions
+
+* What questions do you want to answer?
+* What is the problem you are trying to solve?
+* What decisions are you trying to make?
+* What outcomes are you hoping for?
+* What story do you want to tell?
+* What tasks should the viewer be able to perform?
