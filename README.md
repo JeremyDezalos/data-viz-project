@@ -24,7 +24,7 @@ Now, everything is all setup! To run the MimicApp:
 conda activate datavis1
 
 cd MimicApp
-python index.py
+python index.py -psql_pass <your-database-password>
 ```
 
 You should be able to see the forwarded port from [http://127.0.0.1:8050](http://127.0.0.1:8050). Select `Visualize a cohort` from top. select 'cohort1' from the dropdown menu and select `load`. DONE!

@@ -8,6 +8,7 @@ import time
 
 
 # import custom libraries
+import os
 import sys
 sys.path.append("C:\\DATA\\Tasks\\lib\\hk")
 import hk_psql
@@ -31,7 +32,7 @@ ADD_DATA = "/mlodata1/hokarami/tedam/MimicApp/lookup/"
 ADD_DATA="C:\\DATA\\data\\processed\\MimicApp\\lookup\\"
 ADD_DATA="../resources/data1/lookup/"
 DBNAME = 'datavis'
-MYPASS = "1234"
+MYPASS = os.environ['psql_pass']
 
 d_labitems = pd.read_csv(ADD_DATA+'d_labitems.csv')
 d_icd_diagnoses = pd.read_csv(ADD_DATA+'d_icd_diagnoses.csv')
@@ -1838,7 +1839,9 @@ def save_varsds(n_clicks, data, selected_rows, name2save='backup' ):
     raise PreventUpdate
 
 
-
+if __name__ == '__main__':
+    print('hi')
+    term
 
 
 
