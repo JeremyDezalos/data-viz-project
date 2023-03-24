@@ -31,7 +31,7 @@ ADD_DATA = "/mlodata1/hokarami/tedam/MimicApp/lookup/"
 ADD_DATA="C:\\DATA\\data\\processed\\MimicApp\\lookup\\"
 ADD_DATA="../resources/data1/lookup/"
 DBNAME = 'datavis'
-
+MYPASS = "1234"
 
 d_labitems = pd.read_csv(ADD_DATA+'d_labitems.csv')
 d_icd_diagnoses = pd.read_csv(ADD_DATA+'d_icd_diagnoses.csv')
@@ -48,7 +48,7 @@ dis_locs = pd.read_csv(ADD_DATA+'dis_loc.csv')
 print(dis_locs)
 
 conn= None
-conn = hk_psql.connect_psql(DBNAME)
+conn = hk_psql.connect_psql(DBNAME, mypass=MYPASS)
 
 
 list_schema = hk_psql.get_schemas(DBNAME)

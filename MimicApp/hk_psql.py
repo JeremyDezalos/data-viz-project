@@ -67,7 +67,7 @@ def create_db(dbname):
     sqluser = 'postgres'
     # dbname = DBNAME
     schema_name = 'mimic_core'
-    mypass='Hkmypassword1374!'
+    mypass='1234'
     conn_string = f"postgresql://{sqluser}:{mypass}@localhost/"
 
     # #establishing the connection
