@@ -1,65 +1,69 @@
 
-          copy alaki_mimic_core.transfers TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/alaki/core/transfers.csv' WITH DELIMITER ',' CSV HEADER;
+          copy sepsis1_mimic_core.transfers TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/sepsis1/core/transfers.csv' WITH DELIMITER ',' CSV HEADER;
 
 
         
-          copy alaki_mimic_core.admissions TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/alaki/core/admissions.csv' WITH DELIMITER ',' CSV HEADER;
+          copy sepsis1_mimic_core.admissions TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/sepsis1/core/admissions.csv' WITH DELIMITER ',' CSV HEADER;
 
 
         
-          copy alaki_mimic_hosp.labevents TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/alaki/hosp/labevents.csv' WITH DELIMITER ',' CSV HEADER;
+          copy sepsis1_mimic_core.patients TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/sepsis1/core/patients.csv' WITH DELIMITER ',' CSV HEADER;
 
 
         
-          copy alaki_mimic_hosp.diagnoses_icd TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/alaki/hosp/diagnoses_icd.csv' WITH DELIMITER ',' CSV HEADER;
+          copy sepsis1_mimic_hosp.labevents TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/sepsis1/hosp/labevents.csv' WITH DELIMITER ',' CSV HEADER;
 
 
         
-          copy alaki_mimic_hosp.procedures_icd TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/alaki/hosp/procedures_icd.csv' WITH DELIMITER ',' CSV HEADER;
+          copy sepsis1_mimic_hosp.diagnoses_icd TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/sepsis1/hosp/diagnoses_icd.csv' WITH DELIMITER ',' CSV HEADER;
 
 
         
-          copy alaki_mimic_hosp.drgcodes TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/alaki/hosp/drgcodes.csv' WITH DELIMITER ',' CSV HEADER;
+          copy sepsis1_mimic_hosp.procedures_icd TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/sepsis1/hosp/procedures_icd.csv' WITH DELIMITER ',' CSV HEADER;
 
 
         
-          copy alaki_mimic_hosp.emar TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/alaki/hosp/emar.csv' WITH DELIMITER ',' CSV HEADER;
+          copy sepsis1_mimic_hosp.drgcodes TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/sepsis1/hosp/drgcodes.csv' WITH DELIMITER ',' CSV HEADER;
 
 
         
-          copy alaki_mimic_hosp.d_hcpcs TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/alaki/hosp/d_hcpcs.csv' WITH DELIMITER ',' CSV HEADER;
+          copy sepsis1_mimic_hosp.emar TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/sepsis1/hosp/emar.csv' WITH DELIMITER ',' CSV HEADER;
 
 
         
-          copy alaki_mimic_hosp.d_icd_diagnoses TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/alaki/hosp/d_icd_diagnoses.csv' WITH DELIMITER ',' CSV HEADER;
+          copy sepsis1_mimic_hosp.d_hcpcs TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/sepsis1/hosp/d_hcpcs.csv' WITH DELIMITER ',' CSV HEADER;
 
 
         
-          copy alaki_mimic_hosp.d_icd_procedures TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/alaki/hosp/d_icd_procedures.csv' WITH DELIMITER ',' CSV HEADER;
+          copy sepsis1_mimic_hosp.d_icd_diagnoses TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/sepsis1/hosp/d_icd_diagnoses.csv' WITH DELIMITER ',' CSV HEADER;
 
 
         
-          copy alaki_mimic_hosp.d_labitems TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/alaki/hosp/d_labitems.csv' WITH DELIMITER ',' CSV HEADER;
+          copy sepsis1_mimic_hosp.d_icd_procedures TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/sepsis1/hosp/d_icd_procedures.csv' WITH DELIMITER ',' CSV HEADER;
 
 
         
-          copy alaki_mimic_icu.chartevents TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/alaki/icu/chartevents.csv' WITH DELIMITER ',' CSV HEADER;
+          copy sepsis1_mimic_hosp.d_labitems TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/sepsis1/hosp/d_labitems.csv' WITH DELIMITER ',' CSV HEADER;
 
 
         
-          copy alaki_mimic_icu.inputevents TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/alaki/icu/inputevents.csv' WITH DELIMITER ',' CSV HEADER;
+          copy sepsis1_mimic_icu.chartevents TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/sepsis1/icu/chartevents.csv' WITH DELIMITER ',' CSV HEADER;
 
 
         
-          copy alaki_mimic_icu.procedureevents TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/alaki/icu/procedureevents.csv' WITH DELIMITER ',' CSV HEADER;
+          copy sepsis1_mimic_icu.inputevents TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/sepsis1/icu/inputevents.csv' WITH DELIMITER ',' CSV HEADER;
 
 
         
-          copy alaki_mimic_icu.icustays TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/alaki/icu/icustays.csv' WITH DELIMITER ',' CSV HEADER;
+          copy sepsis1_mimic_icu.procedureevents TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/sepsis1/icu/procedureevents.csv' WITH DELIMITER ',' CSV HEADER;
 
 
         
-          copy alaki_mimic_icu.d_items TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/alaki/icu/d_items.csv' WITH DELIMITER ',' CSV HEADER;
+          copy sepsis1_mimic_icu.icustays TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/sepsis1/icu/icustays.csv' WITH DELIMITER ',' CSV HEADER;
+
+
+        
+          copy sepsis1_mimic_icu.d_items TO 'C:/DATA/Courses/DataVis/data-viz-project/MimicApp/datasets/sepsis1/icu/d_items.csv' WITH DELIMITER ',' CSV HEADER;
 
 
         

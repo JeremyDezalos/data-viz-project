@@ -1,3 +1,8 @@
+import os
+os.environ['psql_dbname'] = 'mimic'
+os.environ['psql_pass'] = 'Hkmypassword1374!'
+DBNAME = os.environ['psql_dbname']
+MYPASS = os.environ['psql_pass']
 
 
 import numpy as np
@@ -26,7 +31,9 @@ import dash
 import json
 
 ADD_DATA = "C:\\DATA\\data\\raw\\mimic4\\lookup\\"
-dbs = ['sepsisR',]
+ADD_DATA="../resources/data1/lookup/"
+
+dbs = ['alaki','sepsis3','sepsis_icd10','sepsis','cohort3','crp','datavis','lac']
 
 
 schemas = {
