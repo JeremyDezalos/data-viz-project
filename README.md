@@ -99,10 +99,9 @@ Let's look at the outcome of their hospital stay. The outcome is defined as posi
 
 <img src="outcome.png" alt="outcome" width="80%" height="80%" title = "outcome">
 
-Because sepsis is a life-threatening condition, around two thirds of the patients do not survive their stay.
-The time of the stay is also useful to understand the patient's financial status. One could argue that wealthy patients can afford to stay longer at the hosptial.
+Because sepsis is a life-threatening condition, around two thirds of the patients do not survive their stay (0 = dead, 1 = survived).
 
-<img src="ethnicity_time.png" alt="eth_time" width="80%" height="80%" title = "erh_time">
+The time of the stay is also useful to understand the patient's financial status. One could argue that wealthy patients can afford to stay longer at the hosptial.
 
 Let's try again and look at the distribution of the patient's insurance
 
@@ -110,7 +109,11 @@ Let's try again and look at the distribution of the patient's insurance
 
 We notice that the patients using medicare have a shorter stay in the hospital than patients who have other insurances.
 
+<img src="ethnicity_time.png" alt="eth_time" width="80%" height="80%" title = "erh_time">
 
+Ethnicity is also an attribute available in the database. It can potentially correlates with other values such as time of stay or outcome.
+
+The dataset contains a lot of laboratory events such as drugs administration, vital signals, diagnoses over time.
 
 ### Related work
 
