@@ -89,7 +89,7 @@ Based on our literature review, we have identified several components that we pl
 > Pre-processing of the data set you chose
 > - Show some basic statistics and get insights about the data
 
-The dataset contains 7889 admissions that contains an ICD that is related to sepsis.
+The dataset contains 7889 admissions that contains an ICD that is related to sepsis. This exploratory data analysis will focus on the patients themselves and will try to explain who they are.
 The age repartition of this cohort is this:
 
 <img src="age.png" alt="age" width="80%" height="80%" title = "age">
@@ -99,11 +99,11 @@ Let's look at the outcome of their hospital stay. The outcome is defined as posi
 
 <img src="outcome.png" alt="outcome" width="80%" height="80%" title = "outcome">
 
-Because sepsis is a life-threatening condition, around two thirds of the patients do not survive their stay (0 = dead, 1 = survived).
+Because sepsis is a life-threatening condition, around two thirds of the patients do not survive their stay (0 being dead, 1 being survived).
 
 The time of the stay is also useful to understand the patient's financial status. One could argue that wealthy patients can afford to stay longer at the hosptial.
 
-Let's try again and look at the distribution of the patient's insurance
+Let's look at the distribution of time stayed given the patient's insurance
 
 <img src="insurance_time.png" alt="ins_time" width="80%" height="80%" title = "ins_time">
 
