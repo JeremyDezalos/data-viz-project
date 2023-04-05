@@ -92,15 +92,19 @@ Based on our literature review, we have identified several components that we pl
 The dataset contains 7889 admissions that contains an ICD that is related to sepsis.
 The age repartition of this cohort is this:
 [violin chart for the age]
+<img src="age.png" alt="age" width="80%" height="80%" title = "age">
 We can see that no one has a age between 0 and 20. This is because the dataset has been anonymized to attempt at the privacy of the subjects. Thus, every person with an age less than 20 is represented as being 0 years old.
 Let's look at the outcome of their hospital stay. The outcome is defined as positive if the patient survived their stay.
 [bar chart for the outcome]
+<img src="outcome.png" alt="outcome" width="80%" height="80%" title = "outcome">
 Because sepsis is a life-threatening condition, around two thirds of the patients do not survive their stay.
 The time of the stay is also useful to understand the patient's financial status. One could argue that wealthy patients can afford to stay longer at the hosptial.
 [violin chat of the time stayed per ethnicity]
+<img src="ethnicity_time.png" alt="eth_time" width="80%" height="80%" title = "erh_time">
 
 Let's try again and look at the distribution of the patient's insurance
 [violin chat of the time stayed per insurance]
+<img src="insurance_time.png" alt="ins_time" width="80%" height="80%" title = "ins_time">
 We notice that the patients using medicare have a shorter stay in the hospital than patients who have other insurances.
 
 
