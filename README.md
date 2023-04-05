@@ -89,6 +89,22 @@ Based on our literature review, we have identified several components that we pl
 > Pre-processing of the data set you chose
 > - Show some basic statistics and get insights about the data
 
+The dataset contains 7889 admissions that contains an ICD that is related to sepsis.
+The age repartition of this cohort is this:
+[violin chart for the age]
+We can see that no one has a age between 0 and 20. This is because the dataset has been anonymized to attempt at the privacy of the subjects. Thus, every person with an age less than 20 is represented as being 0 years old.
+Let's look at the outcome of their hospital stay. The outcome is defined as positive if the patient survived their stay.
+[bar chart for the outcome]
+Because sepsis is a life-threatening condition, around two thirds of the patients do not survive their stay.
+The time of the stay is also useful to understand the patient's financial status. One could argue that wealthy patients can afford to stay longer at the hosptial.
+[violin chat of the time stayed per ethnicity]
+
+Let's try again and look at the distribution of the patient's insurance
+[violin chat of the time stayed per insurance]
+We notice that the patients using medicare have a shorter stay in the hospital than patients who have other insurances.
+
+
+
 ### Related work
 
 
