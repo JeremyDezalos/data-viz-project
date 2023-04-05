@@ -97,7 +97,20 @@ Based on our literature review, we have identified several components that we pl
 > - What source of inspiration do you take? Visualizations that you found on other websites or magazines (might be unrelated to your data).
 > - In case you are using a dataset that you have already explored in another context (ML or ADA course, semester project...), you are required to share the report of that work to outline the differences with the submission for this class.
 
+This database has been used extensively for analysis or for tool testing. [Here](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7192440/) is a link to a paper that provides a detailed analysis of MIMIC-III.
 
+We used as a base point for our visualizations an interesting paper on the state-of-the-art EHR visualization ([Link here](https://onlinelibrary.wiley.com/doi/full/10.1111/cgf.14424)). Section 4 contains some links to other papers with useful visualizations such as events sequence simplification, clustering or cohort comparison.
 
+Some examples below:
 
+<img src="event_flow.png" alt="Event flow" width="80%" height="80%" title = "Event flow">
 
+<img src="out_flow.png" alt="Out flow" width="80%" height="80%" title = "Out flow">
+
+<img src="coco.png" alt="Coco" width="80%" height="80%" title = "Coco">
+
+<img src="dicon.jpg" alt="DICON" width="80%" height="80%" title = "DICON">
+
+The originality of our project lies in the fact that we want to make the exploration of this dataset understandable and usable by students or inexperienced users with EHR data and to give them useful insights on this dataset.
+
+Hojat Karami already worked on this dataset and the report is available in this repository
