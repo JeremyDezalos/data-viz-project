@@ -142,11 +142,27 @@ Some examples below:
 
 <img src="resources/images/event_flow.png" alt="Event flow" width="80%" height="80%" title = "Event flow">
 
+[EventFlow](https://ieeexplore.ieee.org/abstract/document/6634100)
+
+Transform temporal events into an aggregated display to identify hidden trends in the data.
+
 <img src="resources/images/out_flow.png" alt="Out flow" width="80%" height="80%" title = "Out flow">
+
+[OutFlow](https://ieeexplore.ieee.org/abstract/document/6327272)
+
+Visualization of temporal event sequence data.
 
 <img src="resources/images/coco.png" alt="Coco" width="80%" height="80%" title = "Coco">
 
+[CoCo](http://fandu.org/papers/malik2014vis.pdf)
+
+Tool for comparing groups (cohorts) of temporal event sequence data.
+
 <img src="resources/images/dicon.jpg" alt="DICON" width="80%" height="80%" title = "DICON">
+
+[DICON](https://gotz.web.unc.edu/research-project/dicon/)
+
+Visualization tool to explore similarity in cohorts of patients. 
 
 The originality of our project lies in the fact that we want to make the exploration of this dataset understandable and usable by students or inexperienced users with EHR data and to give them useful insights on this dataset.
 
