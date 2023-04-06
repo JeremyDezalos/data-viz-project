@@ -89,25 +89,26 @@ Based on our literature review, we have identified several components that we pl
 <!-- >> Pre-processing of the data set you chose
 > - Show some basic statistics and get insights about the data -->
 
-The dataset contains 7889 admissions that contains an ICD that is related to sepsis. This exploratory data analysis will focus on the patients themselves and will try to explain who they are.
+The dataset contains 7889 admissions that contains an ICD code that is related to sepsis. This exploratory data analysis will focus on the patients themselves and will try to explain who they are.
 The age repartition of this cohort is this:
 
 <img src="resources/images/age.png" alt="age" width="80%" height="80%" title = "age">
 
-We can see that no one has a age between 0 and 20. This is because the dataset has been anonymized to attempt at the privacy of the subjects. Thus, every person with an age less than 20 is represented as being 0 years old.
-Let's look at the outcome of their hospital stay. The outcome is defined as positive if the patient survived their stay.
+We can see that no one has a age between 0 and 20. This is because the dataset has been anonymized to attempt at the privacy of the subjects. Thus, every person with an age less than 20 is represented as being 0 years old. So without even if we do not know what a spesis is we can already deduce that it affects patients of all ages.
+
+Let's look at the outcome of the patients at the end of their stay at the hospital. We defined an outcome as positive if the patient survived their stay.
 
 <img src="resources/images/outcome.png" alt="outcome" width="80%" height="80%" title = "outcome">
 
-Because sepsis is a life-threatening condition, around two thirds of the patients do not survive their stay (0 being dead, 1 being survived).
+Because sepsis is a life-threatening condition, around two thirds of the patients do not survive their stay (In the graph 0 means being dead, 1 means surviving).
 
-The time of the stay is also useful to understand the patient's financial status. One could argue that wealthy patients stay longer at the hosptial because they can afford to compared to poorer patients.
+The time of the stay is also useful to understand the patient's financial status. One could argue that wealthy patients stay longer at the hosptial because they can afford to pay the expanses longer compared to poorer patients.
 
 Let's look at the distribution of time stayed given the patient's insurance
 
 <img src="resources/images/insurance_time.png" alt="ins_time" width="80%" height="80%" title = "ins_time">
 
-We notice that the patients using medicare have a shorter stay in the hospital than patients who have other insurances. Medicaid is an health insurance for people with limited income or resources. This tends to verify our hypothesis that poorer people leave the hospital faster.
+We notice that the patients using medicare have a shorter stay in the hospital than patients who have other insurances. Medicaid is an health insurance for people with limited income or resources. This tends to verify our hypothesis that poorer people leave the hospital faster to reduce the cost of their bills.
 
 Ethnicity is also an attribute available in the database. Let's look at how they are represented.
 
@@ -123,7 +124,7 @@ It is harder to determine a correlation between the time and the ethnicity of th
 
 <img src="resources/images/ethnicity_alive.png" alt="eth_alive" width="80%" height="80%" title = "eth_alive">
 
-We can see that people with unspecified ethnicity have higher chances to survive. The unable to obtains column only 74 people so we do not consider this significant. However the people who have an unknown ethnicity are almost a thousand. And we do not have a good explanation for this
+We can see that people with unspecified ethnicity have higher chances to survive. The unable to obtains column only 74 people so we do not consider this to be significant. However the people who have an unknown ethnicity are almost a thousand and we still do not have a good explanation for this.
 
 ### Related work
 
