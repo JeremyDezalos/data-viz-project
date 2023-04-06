@@ -150,4 +150,3 @@ Some examples below:
 
 The originality of our project lies in the fact that we want to make the exploration of this dataset understandable and usable by students or inexperienced users with EHR data and to give them useful insights on this dataset.
 
-Hojat Karami already worked on this dataset and the report is available in this repository
