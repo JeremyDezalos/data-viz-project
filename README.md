@@ -92,12 +92,12 @@ Based on our literature review, we have identified several components that we pl
 The dataset contains 7889 admissions that contains an ICD that is related to sepsis. This exploratory data analysis will focus on the patients themselves and will try to explain who they are.
 The age repartition of this cohort is this:
 
-<img src="age.png" alt="age" width="80%" height="80%" title = "age">
+<img src="resources/images/age.png" alt="age" width="80%" height="80%" title = "age">
 
 We can see that no one has a age between 0 and 20. This is because the dataset has been anonymized to attempt at the privacy of the subjects. Thus, every person with an age less than 20 is represented as being 0 years old.
 Let's look at the outcome of their hospital stay. The outcome is defined as positive if the patient survived their stay.
 
-<img src="outcome.png" alt="outcome" width="80%" height="80%" title = "outcome">
+<img src="resources/images/outcome.png" alt="outcome" width="80%" height="80%" title = "outcome">
 
 Because sepsis is a life-threatening condition, around two thirds of the patients do not survive their stay (0 being dead, 1 being survived).
 
@@ -105,17 +105,19 @@ The time of the stay is also useful to understand the patient's financial status
 
 Let's look at the distribution of time stayed given the patient's insurance
 
-<img src="insurance_time.png" alt="ins_time" width="80%" height="80%" title = "ins_time">
+<img src="resources/images/insurance_time.png" alt="ins_time" width="80%" height="80%" title = "ins_time">
 
 We notice that the patients using medicare have a shorter stay in the hospital than patients who have other insurances. Medicaid is an health insurance for people with limited income or resources. This tends to verify our hypothesis that poorer people leave the hospital faster.
 
 Ethnicity is also an attribute available in the database. It can potentially correlates with other values such as time of stay or outcome.
 
-<img src="ethnicity_time.png" alt="eth_time" width="80%" height="80%" title = "erh_time">
+<img src="resources/images/ethnicity_time.png" alt="eth_time" width="80%" height="80%" title = "erh_time">
 
 It is harder to determine a correlation between the time and the ethnicity of the patient. So let's look at the mortality given the ethnicity.
 
-<img src="ethnicity_alive.png" alt="eth_time" width="80%" height="80%" title = "erh_time">
+<img src="resources/images/ethnicity_alive.png" alt="eth_time" width="80%" height="80%" title = "erh_time">
+
+We can see that people with unspecified ethnicity have higher chances to survive.
 
 The dataset contains a lot of laboratory events such as drugs administration, vital signals, diagnoses over time.
 
@@ -133,13 +135,13 @@ We used as a base point for our visualizations an interesting paper on the state
 
 Some examples below:
 
-<img src="event_flow.png" alt="Event flow" width="80%" height="80%" title = "Event flow">
+<img src="resources/images/event_flow.png" alt="Event flow" width="80%" height="80%" title = "Event flow">
 
-<img src="out_flow.png" alt="Out flow" width="80%" height="80%" title = "Out flow">
+<img src="resources/images/out_flow.png" alt="Out flow" width="80%" height="80%" title = "Out flow">
 
-<img src="coco.png" alt="Coco" width="80%" height="80%" title = "Coco">
+<img src="resources/images/coco.png" alt="Coco" width="80%" height="80%" title = "Coco">
 
-<img src="dicon.jpg" alt="DICON" width="80%" height="80%" title = "DICON">
+<img src="resources/images/dicon.jpg" alt="DICON" width="80%" height="80%" title = "DICON">
 
 The originality of our project lies in the fact that we want to make the exploration of this dataset understandable and usable by students or inexperienced users with EHR data and to give them useful insights on this dataset.
 
