@@ -101,17 +101,21 @@ Let's look at the outcome of their hospital stay. The outcome is defined as posi
 
 Because sepsis is a life-threatening condition, around two thirds of the patients do not survive their stay (0 being dead, 1 being survived).
 
-The time of the stay is also useful to understand the patient's financial status. One could argue that wealthy patients can afford to stay longer at the hosptial.
+The time of the stay is also useful to understand the patient's financial status. One could argue that wealthy patients stay longer at the hosptial because they can afford to compared to poorer patients.
 
 Let's look at the distribution of time stayed given the patient's insurance
 
 <img src="insurance_time.png" alt="ins_time" width="80%" height="80%" title = "ins_time">
 
-We notice that the patients using medicare have a shorter stay in the hospital than patients who have other insurances.
+We notice that the patients using medicare have a shorter stay in the hospital than patients who have other insurances. Medicaid is an health insurance for people with limited income or resources. This tends to verify our hypothesis that poorer people leave the hospital faster.
+
+Ethnicity is also an attribute available in the database. It can potentially correlates with other values such as time of stay or outcome.
 
 <img src="ethnicity_time.png" alt="eth_time" width="80%" height="80%" title = "erh_time">
 
-Ethnicity is also an attribute available in the database. It can potentially correlates with other values such as time of stay or outcome.
+It is harder to determine a correlation between the time and the ethnicity of the patient. So let's look at the mortality given the ethnicity.
+
+<img src="ethnicity_alive.png" alt="eth_time" width="80%" height="80%" title = "erh_time">
 
 The dataset contains a lot of laboratory events such as drugs administration, vital signals, diagnoses over time.
 
