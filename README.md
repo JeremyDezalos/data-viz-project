@@ -100,7 +100,7 @@ Let's look at the outcome of the patients at the end of their stay at the hospit
 
 <img src="resources/images/outcome.png" alt="outcome" width="80%" height="80%" title = "outcome">
 
-Because sepsis is a life-threatening condition, around two thirds of the patients do not survive their stay (In the graph 0 means being dead, 1 means surviving).
+Because sepsis is a life-threatening condition, around two thirds of the patients do not survive their stay (In the graph, label 0 means being dying and label 1 means surviving).
 
 The time of the stay is also useful to understand the patient's financial status. One could argue that wealthy patients stay longer at the hosptial because they can afford to pay the expanses longer compared to poorer patients.
 
@@ -120,7 +120,7 @@ Ethnicity can potentially correlate with other values such as time of stay or ou
 
 <img src="resources/images/ethnicity_time.png" alt="eth_time" width="80%" height="80%" title = "eth_time">
 
-It is harder to determine a correlation between the time and the ethnicity of the patient. So let's look at the mortality ratio given the ethnicity.
+It is difficult to determine a correlation between the time and the ethnicity of the patient. So let's look at the mortality ratio given the ethnicity.
 
 <img src="resources/images/ethnicity_alive.png" alt="eth_alive" width="80%" height="80%" title = "eth_alive">
 
@@ -128,11 +128,11 @@ We can see that people with unspecified ethnicity have higher chances to survive
 
 ### Related work
 
-
+<!-- >
 > - What others have already done with the data?
 > - Why is your approach original?
 > - What source of inspiration do you take? Visualizations that you found on other websites or magazines (might be unrelated to your data).
-> - In case you are using a dataset that you have already explored in another context (ML or ADA course, semester project...), you are required to share the report of that work to outline the differences with the submission for this class.
+> - In case you are using a dataset that you have already explored in another context (ML or ADA course, semester project...), you are required to share the report of that work to outline the differences with the submission for this class. -->
 
 This database has been used extensively for analysis or for tool testing. [Here](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7192440/) is a link to a paper that provides a detailed analysis of MIMIC-III.
 
