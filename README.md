@@ -117,6 +117,8 @@ It is harder to determine a correlation between the time and the ethnicity of th
 
 <img src="resources/images/ethnicity_alive.png" alt="eth_time" width="80%" height="80%" title = "erh_time">
 
+We can see that people with unspecified ethnicity have higher chances to survive.
+
 The dataset contains a lot of laboratory events such as drugs administration, vital signals, diagnoses over time.
 
 ### Related work
