@@ -86,8 +86,8 @@ Based on our literature review, we have identified several components that we pl
 
 ### Exploratory Data Analysis
 
-> Pre-processing of the data set you chose
-> - Show some basic statistics and get insights about the data
+<!-- >> Pre-processing of the data set you chose
+> - Show some basic statistics and get insights about the data -->
 
 The dataset contains 7889 admissions that contains an ICD that is related to sepsis. This exploratory data analysis will focus on the patients themselves and will try to explain who they are.
 The age repartition of this cohort is this:
@@ -109,17 +109,21 @@ Let's look at the distribution of time stayed given the patient's insurance
 
 We notice that the patients using medicare have a shorter stay in the hospital than patients who have other insurances. Medicaid is an health insurance for people with limited income or resources. This tends to verify our hypothesis that poorer people leave the hospital faster.
 
-Ethnicity is also an attribute available in the database. It can potentially correlates with other values such as time of stay or outcome.
+Ethnicity is also an attribute available in the database. Let's look at how they are represented.
 
-<img src="resources/images/ethnicity_time.png" alt="eth_time" width="80%" height="80%" title = "erh_time">
+<img src="resources/images/eth.png" alt="eth" width="80%" height="80%" title = "eth">
 
-It is harder to determine a correlation between the time and the ethnicity of the patient. So let's look at the mortality given the ethnicity.
+White people are the most represented in the cohort. This representation is coherent because the hospital is situated in Boston.
 
-<img src="resources/images/ethnicity_alive.png" alt="eth_time" width="80%" height="80%" title = "erh_time">
+Ethnicity can potentially correlate with other values such as time of stay or outcome.
 
-We can see that people with unspecified ethnicity have higher chances to survive.
+<img src="resources/images/ethnicity_time.png" alt="eth_time" width="80%" height="80%" title = "eth_time">
 
-The dataset contains a lot of laboratory events such as drugs administration, vital signals, diagnoses over time.
+It is harder to determine a correlation between the time and the ethnicity of the patient. So let's look at the mortality ratio given the ethnicity.
+
+<img src="resources/images/ethnicity_alive.png" alt="eth_alive" width="80%" height="80%" title = "eth_alive">
+
+We can see that people with unspecified ethnicity have higher chances to survive. The unable to obtains column only 74 people so we do not consider this significant. However the people who have an unknown ethnicity are almost a thousand. And we do not have a good explanation for this
 
 ### Related work
 
