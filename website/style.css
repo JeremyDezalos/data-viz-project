@@ -1,0 +1,51 @@
+body {
+	overflow: hidden;
+	margin: 0;
+	font-family: "Limelight", sans-serif;
+	text-rendering: optimizeLegibility;
+}
+
+.well {
+	position: relative;
+	overflow: hidden;
+	transition: 1s cubic-bezier(0.5, 0, 0.5, 1);
+}
+
+.top {
+	font-size: 80%;
+	color: hsla(0, 0%, 100%, .25);
+	position: relative;
+	top: -.2em;
+	cursor: pointer;
+}
+
+.panel {
+	position: relative;
+	height: 100vh;
+	overflow: hidden;
+	font-size: 10vmin;
+	padding: 1em;
+	box-sizing: border-box;
+	color: hsla(0, 0%, 100%, .1);
+	cursor: default;
+}
+
+.panel:nth-child(1) {
+	background: #012345;
+}
+
+.panel:nth-child(2) {
+	background: #123456;
+}
+
+.panel:nth-child(3) {
+	background: #234567;
+}
+
+.panel:nth-child(4) {
+	background: #345678;
+}
+
+.panel:nth-child(5) {
+	background: #456789;
+}
