@@ -7,6 +7,7 @@ var pnls = document.querySelectorAll('.panel').length,
 	scdir, hold = false;
 
 function _scrollY(obj) {
+	if(!canCreate){return;}
 	var slength, plength, pan, step = 100,
 		vh = window.innerHeight / 100,
 		vmin = Math.min(window.innerHeight, window.innerWidth) / 100;
@@ -71,13 +72,13 @@ async function createDiv(){
 		divToCreate.setAttribute('id', 'panelToDelete');
 		divToCreate.innerHTML = "Lots of data for the patient !!!";
 		let func = "destroy('panelToDelete')"
-		divToCreate.innerHTML += '<br/><button onclick='+ func +'>Remove this</button>';
+		divToCreate.innerHTML += '<br/><button onclick='+ func +'>Go back</button>';
 		divReference.parentNode.appendChild(divToCreate);
-		canCreate = false;
+		
 
 		scdir = 'up';
 		_scrollY(well);
-	
+		canCreate = false;
 		await new Promise(resolve => setTimeout(resolve, 1000));
 	} else {
 		alert("Stop being greedy, you can create only one panel.")
@@ -85,6 +86,7 @@ async function createDiv(){
 }
 
 async function destroy(elem){
+	canCreate = true;
 	scdir = 'top';
 	_scrollY(well);
 
@@ -92,5 +94,5 @@ async function destroy(elem){
 	
 	let d = document.getElementById(elem);
 	d.parentNode.removeChild(d);
-	canCreate = true;
+	
 }
