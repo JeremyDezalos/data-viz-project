@@ -1,8 +1,11 @@
 # data-viz-project
 
+[a link](https://github.com/JeremyDezalos/data-viz-project/blob/main/website/page.html)
+
 # Installing Python packages
 
 Create a new conda environment named `datavis1`:
+
 ```
 conda update -n base conda
 conda env create -f ./base.yaml
@@ -11,12 +14,12 @@ conda activate datavis1
 
 # Installing MIMIC-APP
 
-* install psql and pgAdmin(the interface)
-* create a new database `<database-name>=datavis` with a password `<database-password>` in pgAdmin ().
-* create these 3 empty schemas: `cohort1_mimic_core`|`cohort1_mimic_hosp`|`cohort1_mimic_icu`
-* Download backup files from [this link](https://drive.switch.ch/index.php/s/PZjZcXRxBeiw1fC)
-* Update created schemas by restoring from downloaded backup files ([instructions](https://hevodata.com/learn/pgadmin-backup-database/)).
-* Add `lookup` folder ([link](https://drive.switch.ch/index.php/s/iK64Uyq04FabWHA)) to `resources/data1/lookup`
+- install psql and pgAdmin(the interface)
+- create a new database `<database-name>=datavis` with a password `<database-password>` in pgAdmin ().
+- create these 3 empty schemas: `cohort1_mimic_core`|`cohort1_mimic_hosp`|`cohort1_mimic_icu`
+- Download backup files from [this link](https://drive.switch.ch/index.php/s/PZjZcXRxBeiw1fC)
+- Update created schemas by restoring from downloaded backup files ([instructions](https://hevodata.com/learn/pgadmin-backup-database/)).
+- Add `lookup` folder ([link](https://drive.switch.ch/index.php/s/iK64Uyq04FabWHA)) to `resources/data1/lookup`
 
 Now, everything is all setup! To run the MimicApp:
 
@@ -29,22 +32,18 @@ python index.py --dbname <database-name> --psql_pass <database-password>
 
 You should be able to see the forwarded port from [http://127.0.0.1:8050](http://127.0.0.1:8050). Select `Visualize a cohort` from top. select 'cohort1' from the dropdown menu and select `load`. DONE!
 
-* you can use `MimicApp/psql2csv.ipynb` to convert database to csv files which will be saved in `MimicApp/datasets/<cohort-name>` (you should modify the absolute PATH in the notebook)
+- you can use `MimicApp/psql2csv.ipynb` to convert database to csv files which will be saved in `MimicApp/datasets/<cohort-name>` (you should modify the absolute PATH in the notebook)
 
 # M1: Data Exploration (April 12)
 
-
-
-
 # Questions
 
-* What questions do you want to answer?
-* What is the problem you are trying to solve?
-* What decisions are you trying to make?
-* What outcomes are you hoping for?
-* What story do you want to tell?
-* What tasks should the viewer be able to perform?
-
+- What questions do you want to answer?
+- What is the problem you are trying to solve?
+- What decisions are you trying to make?
+- What outcomes are you hoping for?
+- What story do you want to tell?
+- What tasks should the viewer be able to perform?
 
 ## Milestone 1 (23rd April, 5pm)
 
@@ -53,7 +52,7 @@ You should be able to see the forwarded port from [http://127.0.0.1:8050](http:/
 This is a preliminary milestone to let you set up goals for your final project and assess the feasibility of your ideas.
 Please, fill the following sections about your project.
 
-*(max. 2000 characters per section)*
+_(max. 2000 characters per section)_
 
 ### Dataset
 
@@ -62,13 +61,12 @@ MIMIC-IV is a publicly available dataset containing de-identified electronic hea
 Sepsis is a life-threatening condition caused by the body's response to an infection. It can cause widespread inflammation, organ failure, and septic shock. Early recognition and treatment are crucial for a positive outcome.
 
 We filtered the MIMIC-IV dataset, which has data from over 60,000 ICU patients, to select only those who have at least one ICD code that contains the word "sepsis." This resulted in approximately 8,000 patients being included in our analysis.
+
 ### Problematic
 
 <!-- > Frame the general topic of your visualization and the main axis that you want to develop.
 > - What am I trying to show with my visualization?
 > - Think of an overview for the project, your motivation, and the target audience. -->
-
-
 
 Electronic health records (EHRs) pose several challenges related to data management and analysis. One significant challenge is managing multi-modality data, which may include diverse types of data such as imaging, audio, and text data. Time-series and event sequence data is also common in EHRs, but presents challenges in terms of analysis and modeling due to the complexity of temporal relationships. EHRs often contain heterogeneous data, meaning that different data types are collected and stored in different formats, and may be of varying quality. Additionally, EHRs contain data on different disease subtypes, and understanding the unique characteristics and patterns of these subtypes is a complex task. Addressing these challenges requires sophisticated data management techniques, as well as advanced data and visual analytics that can accommodate these diverse data types and structures and provide insights into specific disease subtypes.
 
@@ -76,13 +74,12 @@ We are interested in acquainting students with patient data in electronic health
 
 Based on our literature review, we have identified several components that we plan to develop in our project. These components include:
 
-* A global overview of the entire dataset.
-* Interactive subset selection, allowing the user to select a subset of the data by interacting with the overview panel.
-* The ability for the user to specify desired outcomes, such as length of stay, specific diseases (using ICD codes), or in-hospital mortality.
-* A simple clustering algorithm (e.g. K-means) to show potential patient subgroups. The user should be able to select two subgroups for further analysis.
-* A panel utilizing recent "event sequence simplification" algorithms to show differences in medication order for each subgroup.
-* A panel to show aggregated trends and temporal patterns in clinical variables, such as laboratory and vital values, for each subgroup.
-
+- A global overview of the entire dataset.
+- Interactive subset selection, allowing the user to select a subset of the data by interacting with the overview panel.
+- The ability for the user to specify desired outcomes, such as length of stay, specific diseases (using ICD codes), or in-hospital mortality.
+- A simple clustering algorithm (e.g. K-means) to show potential patient subgroups. The user should be able to select two subgroups for further analysis.
+- A panel utilizing recent "event sequence simplification" algorithms to show differences in medication order for each subgroup.
+- A panel to show aggregated trends and temporal patterns in clinical variables, such as laboratory and vital values, for each subgroup.
 
 ### Exploratory Data Analysis
 
@@ -162,7 +159,42 @@ Tool for comparing groups (cohorts) of temporal event sequence data.
 
 [DICON](https://gotz.web.unc.edu/research-project/dicon/)
 
-Visualization tool to explore similarity in cohorts of patients. 
+Visualization tool to explore similarity in cohorts of patients.
 
 The originality of our project lies in the fact that we want to make the exploration of this dataset understandable and usable by students or inexperienced users with EHR data and to give them useful insights on this dataset.
 
+## Milestone 2 (7th May, 5pm)
+
+**10% of the final grade**
+
+### Panel 2: Multi-patient view
+
+In this panel, our aim is to create an interactive visualization for electronic health records. The user can select variables of interest from a dropdown menu based on their knowledge and also select a subgroup based on static features.
+
+<img src="resources/images/control_panel.jpg" alt="control_panel" width="100%" height="100%" title = "control_panel" >
+
+The next step will display selected variables for the patients. The selected variables fall into two categories:
+
+- Event sequence data where each event is represented as $(t_i,e_i)$ for timestamp and the event time, respectively.
+
+- Time-series variables where each data point is represented as $(t_i,m_i,v_i)$ for time, modality, and the corresponding value, respectively. Here, we convert the time series to events based on normal ranges. For example, HR>120 is regarded as `HR-High`.
+
+We show a raw visualization for the selected variables, where for each data point $(i,t_i,e_i)$, we use the x-axis for time, the y-axis for patient order, and the color/shape channel for the event type.
+
+We will use a triangle to represent each event, with the x and y axis representing channels. Examples are the sequence of medications, hospital wards, and ICD codes.
+
+Finally, when the user clicks on the `Simplify` button, we want to show a simplified version of the modalities illustrated in the previous step using the following techniques:
+
+- Time alignment: We will explore various methods for time alignment such as Dynamic Time Warping (DTW), Edit Distance, LSTMs, and more.
+
+- Modality alignment: Based on the alignment of time stamps and the similarity of sequences, we will reorder the modalities on the y-axis.
+
+- Sankey diagram: We will use a visualization tool similar to a Sankey diagram to simplify similar sequences.
+
+<img src="resources/images/alignment.png" alt="Time aggregation" width="100%" height="100%" title = "Time aggregation" >
+
+We also considered the following additional ideas:
+
+- Brush and Zoom: The user can zoom over both the x and y-axis to see more details for the selected area.
+
+- t-SNE plot: We will provide a simple t-SNE diagram for the selected variables (in the first step) based on sequence so that the user can easily select a subgroup by brushing and selecting over it.
