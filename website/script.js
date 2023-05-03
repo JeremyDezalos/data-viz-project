@@ -1,14 +1,28 @@
 //the basis of this script was found here: https://codepen.io/nearee/pen/zYYENMa
 
 
+// set the dimensions and margins of the graph
+var margin = {top: 20, right: 30, bottom: 40, left: 90},
+    width = 460 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg = d3.select("#ward_bar")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
 d3.csv('http://localhost:8000/resources/data1/core/transfers.csv', createChart);
 //var data = d3.csv.parseRows('localhost:8000/resources/data1/core/transfers.csv');
-//console.log(data)
 //createChart(data)
 
 function createChart(data) {
-	
-	//var parseDate = d3.time.format("%Y-%m-%d").parse
+
+	console.log(data)
+
 	const parseTime = d3.time.format("%Y-%m-%d %H:%M:%S").parse
 
 	var filtered_data = data.filter(d => {
@@ -33,12 +47,24 @@ function createChart(data) {
 		return([d.careunit, (parseTime(d.outtime) - parseTime(d.intime)) / 1000])
 	}).keys();
 
-	var acc = [["", 0]]
+	var acc = 0
+	const wards = new Map();
 	for(d in filtered_data){
-		if(acc.includes(d.careunit)){
-
+		var name = filtered_data[d].split(",")[0]
+		var time_value = parseInt(filtered_data[d].split(",")[1])
+		acc += time_value
+		if(wards.has(name)){
+			var old_value = wards.get(name)
+			time_value += old_value
+			wards.set(name, time_value)
+		}
+		else{
+			wards.set(name, time_value)
 		}
 	}
+
+
+	
 	//var test = (parseTime(filtered_data[0].outtime) - parseTime(filtered_data[0].intime)) / 1000 //Donne la valeur en seconde
 
 	/*var grouped_by_careunit = d3.flatRollup(
@@ -57,8 +83,45 @@ function createChart(data) {
 	});*/
 
 	console.log(filtered_data)
+	console.log(wards)
 	/*console.log(parseTime(filtered_data[0].outtime))
 	console.log(parseTime(filtered_data[0].intime))*/
+
+	const arr = Array.from(wards, function (entry) {
+		return { key: entry[0], value: entry[1] };
+	});
+	  
+
+	// Add X axis
+	var x = d3.scaleLinear()
+	  .domain([0, 1000000])
+	  .range([ 0, width]);
+	/*svg.append("g")
+	  .attr("transform", "translate(0," + height + ")")
+	  .call(d3.axisBottom(x))
+	  .selectAll("text")
+		.attr("transform", "translate(-10,0)rotate(-45)")
+		.style("text-anchor", "end");*/
+  
+	// Y axis
+	/*var y = d3.scaleBand()
+	  .range([ 0, height ])
+	  .domain(arr.map(function(d) { return d.key; }))
+	  .padding(.1);
+	svg.append("g")
+	  .call(d3.axisLeft(y))*/
+  
+	//Bars
+	svg.selectAll("myRect")
+	  //.data(arr)
+	  .enter()
+	  .append("rect")
+	  //.attr("x", x(0) )
+	  //.attr("y", function(d) { return y(d.key); })
+	  //.attr("width", function(d) { return x(d.value); })
+	  .attr("width", x())
+	  .attr("height", 100 )
+	  .attr("fill", "#69b3a2")
 }
 
 "use strict";
