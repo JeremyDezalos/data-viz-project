@@ -21,7 +21,7 @@ d3.csv('http://localhost:8000/resources/data1/core/transfers.csv', createChart);
 
 function createChart(data) {
 
-	console.log(data)
+	//console.log(data)
 
 	const parseTime = d3.time.format("%Y-%m-%d %H:%M:%S").parse
 
@@ -47,7 +47,7 @@ function createChart(data) {
 		return([d.careunit, (parseTime(d.outtime) - parseTime(d.intime)) / 1000])
 	}).keys();
 
-	var acc = 0
+	var acc = 0; //Contains all time value
 	const wards = new Map();
 	for(d in filtered_data){
 		var name = filtered_data[d].split(",")[0]
@@ -62,8 +62,6 @@ function createChart(data) {
 			wards.set(name, time_value)
 		}
 	}
-
-
 	
 	//var test = (parseTime(filtered_data[0].outtime) - parseTime(filtered_data[0].intime)) / 1000 //Donne la valeur en seconde
 
@@ -82,8 +80,7 @@ function createChart(data) {
 
 	});*/
 
-	console.log(filtered_data)
-	console.log(wards)
+	//console.log(filtered_data)
 	/*console.log(parseTime(filtered_data[0].outtime))
 	console.log(parseTime(filtered_data[0].intime))*/
 
@@ -91,11 +88,12 @@ function createChart(data) {
 		return { key: entry[0], value: entry[1] };
 	});
 	  
+	//console.log(arr)
 
 	// Add X axis
 	var x = d3.scaleLinear()
-	  .domain([0, 1000000])
-	  .range([ 0, width]);
+	  .domain([0, 100])
+	  .range([0, width]);
 	/*svg.append("g")
 	  .attr("transform", "translate(0," + height + ")")
 	  .call(d3.axisBottom(x))
@@ -110,18 +108,36 @@ function createChart(data) {
 	  .padding(.1);
 	svg.append("g")
 	  .call(d3.axisLeft(y))*/
-  
-	//Bars
-	svg.selectAll("myRect")
-	  //.data(arr)
-	  .enter()
-	  .append("rect")
-	  //.attr("x", x(0) )
-	  //.attr("y", function(d) { return y(d.key); })
-	  //.attr("width", function(d) { return x(d.value); })
-	  .attr("width", x())
-	  .attr("height", 100 )
-	  .attr("fill", "#69b3a2")
+	
+	var i = 0
+	var total_x = 0;
+	for(d in arr){
+		//console.log(x(arr[d].value))
+		//Bars
+		var color = "#"
+		for(let j = 0; j < 6; ++j){
+			color = color + Math.floor(Math.random() * 10)
+		}
+		console.log(color)
+		svg.selectAll("myRect")
+		.data(arr)
+		.enter()
+		.append("rect")
+		//.attr("x", x(0) )
+		.attr("x", total_x)
+		.attr("y", 100)
+		//.attr("y", function(d) { return y(d.key); })
+		//.attr("width", function(d) { return x(d.value); })
+		.attr("width", x((arr[d].value/acc)*100))
+		.attr("height", 100)
+		.attr("fill", color)
+		console.log((arr[d].value/acc)*100)
+		total_x += x((arr[d].value/acc)*100)
+		++i;
+	//	break;
+	}
+
+	
 }
 
 "use strict";
