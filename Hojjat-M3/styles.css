@@ -1,0 +1,33 @@
+
+
+div.tooltip-donut {
+    position: absolute;
+    text-align: center;
+    padding: .5rem;
+    background: #FFFFFF;
+    color: #313639;
+    border: 1px solid #313639;
+    border-radius: 8px;
+    pointer-events: none;
+    font-size: 1.3rem;
+}
+
+svg#scatterplot {
+    background-color: #eee;
+    width: 800px;
+    height: 600px;
+    margin: 0 auto;
+    display: block;
+  }
+
+  svg#sankeyplot {
+    background-color: #db9999;
+    width: 800px;
+    height: 600px;
+    margin: 0 auto;
+    display: block;
+  }
+
+
+
+  

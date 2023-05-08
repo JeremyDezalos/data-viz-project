@@ -12,6 +12,13 @@ conda env create -f ./base.yaml
 conda activate datavis1
 ```
 
+```
+additional packages
+
+conda install -c conda-forge biopython
+
+```
+
 # Installing MIMIC-APP
 
 - install psql and pgAdmin(the interface)
