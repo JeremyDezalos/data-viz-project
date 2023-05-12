@@ -201,18 +201,11 @@ d3.json('http://localhost:8000/Hojjat-M3/test.json', panel2);
 
 function panel2(data){
 	console.log(data)
-	var id = Math.floor(Math.random() * data.state.length)
+	let id = Math.floor(Math.random() * data.state.length)
 	console.log(id)
-	var dict = data.dict_map_states
+	let dict = data.dict_map_states
 	console.log(dict)
-	var events = data.state[id]
-	var output = []
-	for(var i = 0; i < events.length; ++i){
-		var event = events[i]
-		output[i] = [event.abs_time, event.mod, event.value]
-		
-		
-	}
-	//time, mod, value
-	console.log(output)
+	let events = data.state[id]
+	console.log(events)
+
 }
