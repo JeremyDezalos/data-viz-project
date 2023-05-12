@@ -14,15 +14,15 @@ div.tooltip-donut {
 
 svg#scatterplot {
     background-color: #eee;
-    width: 800px;
-    height: 600px;
+    width: 400px;
+    height: 400px;
     margin: 0 auto;
     display: block;
   }
 
   svg#sankeyplot {
     background-color: #db9999;
-    width: 800px;
+    width: 600px;
     height: 600px;
     margin: 0 auto;
     display: block;
