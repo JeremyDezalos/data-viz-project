@@ -197,7 +197,9 @@ function createChart(data) {
 }
 
 
-d3.json('http://localhost:8000/Hojjat-M3/test.json', panel2);
+//d3.csv('https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv', createHeatmap);
+d3.json('http://localhost:8000/Hojjat-M3/test.json', createHeatmap);
+
 
 function panel2(data){
 	console.log(data)
@@ -208,4 +210,40 @@ function panel2(data){
 	let events = data.state[id]
 	console.log(events)
 
+}
+
+function createHeatmap(data) {
+
+	//console.log(data)
+	
+	console.log(data)
+	let id = Math.floor(Math.random() * data.state.length)
+	console.log(id)
+	let dict = data.dict_map_states
+	console.log(dict)
+	let events = data.state[id]
+	console.log(events)
+
+	var stateDict = {};
+	for(var key in dict){
+		stateDict[dict[key]] = key;
+	}
+
+	var timeInterval = 1.0
+	var eventInDomain = {}
+	for(var index in events){
+		//console.log(events[index].abs_time)
+		var inKey = Math.ceil(events[index].abs_time / timeInterval)
+		//console.log(inKey)
+		if(inKey in eventInDomain){
+			//console.log("oui")
+			//console.log(eventInDomain[inKey].length)
+			eventInDomain[inKey].push(events[index])
+		}
+		else{
+			eventInDomain[inKey] = [events[index]]
+		}
+	}
+
+	console.log(eventInDomain)
 }
