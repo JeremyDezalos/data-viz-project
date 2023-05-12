@@ -72,22 +72,26 @@ d3.json(PATH)
     // sankeyplot(data);
   });
 
-d3.json(PATH2)
-  .then(function (data) {
-    console.log(data);
-    // data.forEach((element) => {
-    //   element.intime = new Date(element.intime);
-    // });
-    // return data;
-    return data["state"][0];
-  })
-  .then((data) => {
-    console.log(data);
-    render_scatterplot_states(data, "abs_time", "mod", "value");
-    // render_scatterplot_tsne(data, "x", "y", "color");
+var data_states;
 
-    // sankeyplot(data);
-  });
+function plot_states() {
+  d3.json(PATH2)
+    .then(function (data) {
+      console.log(data);
+      // data.forEach((element) => {
+      //   element.intime = new Date(element.intime);
+      // });
+      // return data;
+      return data["state"][PAT_ID];
+    })
+    .then((data) => {
+      console.log(data);
+
+      // data_states = data;
+      d3.select("#scatterplot_states").text("");
+      render_scatterplot_states(data, "abs_time", "mod", "value");
+    });
+}
 
 function render_scatterplot_tsne(data, X_field, Y_field, color_field) {
   //   X_field = "intime";
@@ -184,7 +188,9 @@ function render_scatterplot_tsne(data, X_field, Y_field, color_field) {
       return colorScale(d[color_field]);
     })
     .on("mouseover", function (d, i) {
-      console.log("HOVER");
+      console.log("HOVER", i);
+      PAT_ID = i;
+      plot_states();
       console.log(
         d[X_field],
         xScale(d[X_field]),

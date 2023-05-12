@@ -14,15 +14,15 @@ div.tooltip-donut {
 
 svg#scatterplot_states {
     background-color: #eee;
-    width: 600px;
-    height: 600px;
+    width: 900px;
+    height: 900px;
     margin: 0 auto;
     display: block;
   }
   svg#scatterplot_tsne {
     background-color: #eee;
-    width: 300px;
-    height: 300px;
+    width: 500px;
+    height: 500px;
     margin: 0 auto;
     display: block;
   }
