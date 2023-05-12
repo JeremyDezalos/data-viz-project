@@ -368,9 +368,6 @@ fromSlider.onmouseup = () => update(getParsed(fromInput, toInput)[0], getParsed(
 toSlider.onmouseup = () => update(getParsed(fromInput, toInput)[0], getParsed(fromInput, toInput)[1]);
 
 function createHeatmap(data) {
-
-	//console.log(data)
-	
 	console.log(data)
 	let id = Math.floor(Math.random() * data.state.length)
 	console.log(id)
