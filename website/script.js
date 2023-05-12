@@ -210,7 +210,162 @@ function panel2(data){
 	let events = data.state[id]
 	console.log(events)
 
+	
+d3.json('http://localhost:8000/Hojjat-M3/test.json', panel2);
+
+
+/*
+	var margin = {top: 30, right: 30, bottom: 30, left: 30},
+	width = 1450 - margin.left - margin.right,
+	height = 450 - margin.top - margin.bottom;
+
+	// append the svg object to the body of the page
+	var svg = d3.select("#my_dataviz")
+	.append("svg")
+	.attr("width", width + margin.left + margin.right)
+	.attr("height", height + margin.top + margin.bottom)
+	.append("g")
+	.attr("transform",
+			"translate(" + margin.left + "," + margin.top + ")");
+
+	// Labels of row and columns
+	var myGroups = Object.values([...new Set(events.map(item => item.abs_time))])
+	var myVars = Object.values([...new Set(events.map(item => item.mod))])
+	console.log( myVars)
+	// Build X scales and axis:
+	var x = d3.scaleBand()
+	.range([ 0, width ])
+	.domain(myGroups)
+	.padding(0.01);
+	svg.append("g")
+	.attr("transform", "translate(0," + height + ")")
+	.call(d3.axisBottom(x))
+
+	// Build X scales and axis:
+	var y = d3.scaleBand()
+	.range([ height, 0 ])
+	.domain(myVars)
+	.padding(0.01);
+	svg.append("g")
+	.call(d3.axisLeft(y));
+
+  // Build color scale
+  var myColor = d3
+  .scaleLinear()
+  .domain([-3, 3])
+  .range(['black', 'white'])
+  .interpolate(d3.interpolateCubehelix)
+
+
+	svg.selectAll()
+		.data(events, function(d) {return d.mod+':'+d.abs_time;})
+		.enter()
+		.append("rect")
+		.attr("x", function(d) { 
+			return x(d.abs_time) 
+		})
+		.attr("y", function(d) { 
+			return y(d.mod) 
+		})
+		.attr("width", x.bandwidth() )
+		.attr("height", y.bandwidth() )
+		.style("fill", function(d) { return myColor(d.value)} )
+*/
+
 }
+
+function controlFromInput(fromSlider, fromInput, toInput, controlSlider) {
+    const [from, to] = getParsed(fromInput, toInput);
+    fillSlider(fromInput, toInput, '#C6C6C6', '#25daa5', controlSlider);
+    if (from > to) {
+        fromSlider.value = to;
+        fromInput.value = to;
+    } else {
+        fromSlider.value = from;
+    }
+	update(from, to)
+}
+    
+function controlToInput(toSlider, fromInput, toInput, controlSlider) {
+    const [from, to] = getParsed(fromInput, toInput);
+    fillSlider(fromInput, toInput, '#C6C6C6', '#25daa5', controlSlider);
+    setToggleAccessible(toInput);
+    if (from <= to) {
+        toSlider.value = to;
+        toInput.value = to;
+    } else {
+        toInput.value = from;
+    }
+	update(from, to)
+}
+
+function controlFromSlider(fromSlider, toSlider, fromInput) {
+  const [from, to] = getParsed(fromSlider, toSlider);
+  fillSlider(fromSlider, toSlider, '#C6C6C6', '#25daa5', toSlider);
+  if (from > to) {
+    fromSlider.value = to;
+    fromInput.value = to;
+  } else {
+    fromInput.value = from;
+  }
+}
+
+function controlToSlider(fromSlider, toSlider, toInput) {
+  const [from, to] = getParsed(fromSlider, toSlider);
+  fillSlider(fromSlider, toSlider, '#C6C6C6', '#25daa5', toSlider);
+  setToggleAccessible(toSlider);
+  if (from <= to) {
+    toSlider.value = to;
+    toInput.value = to;
+  } else {
+    toInput.value = from;
+    toSlider.value = from;
+  }
+}
+
+function getParsed(currentFrom, currentTo) {
+  const from = parseInt(currentFrom.value, 10);
+  const to = parseInt(currentTo.value, 10);
+  return [from, to];
+}
+
+function fillSlider(from, to, sliderColor, rangeColor, controlSlider) {
+    const rangeDistance = to.max-to.min;
+    const fromPosition = from.value - to.min;
+    const toPosition = to.value - to.min;
+    controlSlider.style.background = `linear-gradient(
+      to right,
+      ${sliderColor} 0%,
+      ${sliderColor} ${(fromPosition)/(rangeDistance)*100}%,
+      ${rangeColor} ${((fromPosition)/(rangeDistance))*100}%,
+      ${rangeColor} ${(toPosition)/(rangeDistance)*100}%, 
+      ${sliderColor} ${(toPosition)/(rangeDistance)*100}%, 
+      ${sliderColor} 100%)`;
+}
+
+function setToggleAccessible(currentTarget) {
+  const toSlider = document.querySelector('#toSlider');
+  if (Number(currentTarget.value) <= 0 ) {
+    toSlider.style.zIndex = 2;
+  } else {
+    toSlider.style.zIndex = 0;
+  }
+}
+
+const fromSlider = document.querySelector('#fromSlider');
+const toSlider = document.querySelector('#toSlider');
+const fromInput = document.querySelector('#fromInput');
+const toInput = document.querySelector('#toInput');
+fillSlider(fromSlider, toSlider, '#C6C6C6', '#25daa5', toSlider);
+setToggleAccessible(toSlider);
+
+fromSlider.oninput = () => controlFromSlider(fromSlider, toSlider, fromInput);
+toSlider.oninput = () => controlToSlider(fromSlider, toSlider, toInput);
+fromInput.oninput = () => controlFromInput(fromSlider, fromInput, toInput, toSlider);
+toInput.oninput = () => controlToInput(toSlider, fromInput, toInput, toSlider);
+
+fromSlider.onmouseup = () => update(getParsed(fromInput, toInput)[0], getParsed(fromInput, toInput)[1]);
+toSlider.onmouseup = () => update(getParsed(fromInput, toInput)[0], getParsed(fromInput, toInput)[1]);
 
 function createHeatmap(data) {
 
@@ -244,6 +399,22 @@ function createHeatmap(data) {
 			eventInDomain[inKey] = [events[index]]
 		}
 	}
-
+	var unique_time = Object.values([...new Set(events.map(item => item.abs_time))])
+	var unique_mod = Object.values([...new Set(events.map(item => item.mod))])
 	console.log(eventInDomain)
+	
+	let min = Math.floor(Math.min(...unique_time))
+	let max = Math.ceil(Math.max(...unique_time))
+	document.getElementById("fromSlider").setAttribute("min",min)
+	document.getElementById("toSlider").setAttribute("min",min)
+	document.getElementById("fromSlider").setAttribute("max",max)
+	document.getElementById("toSlider").setAttribute("max",max)
+	document.getElementById("fromSlider").setAttribute("value",min)
+	document.getElementById("toSlider").setAttribute("value",max)
+	controlFromSlider(fromSlider, toSlider, fromInput);
+	controlToSlider(fromSlider, toSlider, toInput);
+}
+
+function update(min, max){
+	console.log(min + " " + max)
 }

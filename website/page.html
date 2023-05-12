@@ -12,7 +12,24 @@
 		<div>
 	    	<div class="panel" id="divCreator">Description of project/dataset
 				<br/>
-				<br/>
+				<div class="range_container">
+					<div class="sliders_control">
+						<input id="fromSlider" type="range" value="10" min="0" max="100"/>
+						<input id="toSlider" type="range" value="40" min="0" max="100"/>
+					</div>
+					<div class="form_control">
+						<div class="form_control_container">
+							<div class="form_control_container__time">Min</div>
+							<input class="form_control_container__time__input" type="number" id="fromInput" value="10" min="0" max="100"/>
+						</div>
+						<div class="form_control_container">
+							<div class="form_control_container__time">Max</div>
+							<input class="form_control_container__time__input" type="number" id="toInput" value="40" min="0" max="100"/>
+						</div>
+					</div>
+				</div>
+				<div id="my_dataviz"></div>
+
 			</div>
 		</div>
 	    <div class="panel">Here's an example for one patient <span class="top">&uarr;</span></div>
