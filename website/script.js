@@ -108,11 +108,14 @@ async function destroy(elem){
 	
 }
 
-d3.csv('http://localhost:8000/resources/data1/core/transfers.csv', createChart);
+d3.json('http://localhost:8000/Hojjat-M3/test.json', createChart);
+
 
 function createChart(data) {
 
-	const parseTime = d3.time.format("%Y-%m-%d %H:%M:%S").parse
+	console.log(data)
+
+	/*const parseTime = d3.time.format("%Y-%m-%d %H:%M:%S").parse
 
 	var filtered_data = data.filter(d => {
 		return d.careunit != ""
@@ -190,5 +193,5 @@ function createChart(data) {
 	.attr("height", 100)
 	.attr("fill", function(d) {
 		return randomColor()
-	})
+	})*/
 }
