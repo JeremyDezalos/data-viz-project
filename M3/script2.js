@@ -5,6 +5,10 @@ PATH = "../resources/sepsis1/core/transfers.csv";
 PATH = "http://localhost:8000/resources/tsne_datavis.json";
 PATH2 = "http://localhost:8000/resources/test.json";
 
+PATH = "../resources/sepsis1/core/transfers.csv";
+PATH = "../resources/tsne_datavis.json";
+PATH2 = "../resources/test.json";
+
 var PAT_ID = 0;
 const selected_hadm_ids = new Set(); // set of selected hadm_ids
 
@@ -89,7 +93,13 @@ function plot_states() {
 
       // data_states = data;
       d3.select("#scatterplot_states").text("");
-      render_scatterplot_states(data, "abs_time", "mod", "value");
+      render_scatterplot_states(
+        data,
+        "abs_time",
+        "mod",
+        "value",
+        (att = "att")
+      );
     });
 }
 
@@ -413,48 +423,55 @@ function render_scatterplot_tsne(data, X_field, Y_field, color_field) {
   }
 }
 
-
-function argsort(arr1, arr2){
-  return arr1.map((item, index) => [arr2[index], item]) // add the args to sort by
-  .sort(([arg1], [arg2]) => arg2 - arg1) // sort by the args
-  .map(([, item]) => item); // extract the sorted items
-} 
-
-function getOnlyOneColumn(data, column){
-  return data.map(e => e[column])
+function argsort(arr1, arr2) {
+  return arr1
+    .map((item, index) => [arr2[index], item]) // add the args to sort by
+    .sort(([arg1], [arg2]) => arg2 - arg1) // sort by the args
+    .map(([, item]) => item); // extract the sorted items
 }
-function argsort_values(data, t, ys){
-  var a = data.filter(function(d) {
-    return d.abs_time == t
-  }).map(({value, mod}) => ({value, mod}))
+
+function getOnlyOneColumn(data, column) {
+  return data.map((e) => e[column]);
+}
+function argsort_values(data, t, ys) {
+  var a = data
+    .filter(function (d) {
+      return d.abs_time == t;
+    })
+    .map(({ value, mod }) => ({ value, mod }));
   var values = getOnlyOneColumn(a, "value");
-  var mods = getOnlyOneColumn(a, "mod")
-  var values_argsorted = argsort(mods, values)
-  var bounds = d3.extent(ys)
-  for(let i = bounds[1]; i >= bounds[0]; --i){
-    if(!mods.includes(i)){
-      values_argsorted.push(i)
+  var mods = getOnlyOneColumn(a, "mod");
+  var values_argsorted = argsort(mods, values);
+  var bounds = d3.extent(ys);
+  for (let i = bounds[1]; i >= bounds[0]; --i) {
+    if (!mods.includes(i)) {
+      values_argsorted.push(i);
     }
   }
-  return values_argsorted
+  return values_argsorted;
 }
 
-function reorderMods(min, max, mod, mods_argsorted){
-  for(let i = min; i <= max; ++i){
-    if(mod == mods_argsorted[i]){
-      return max - i
+function reorderMods(min, max, mod, mods_argsorted) {
+  for (let i = min; i <= max; ++i) {
+    if (mod == mods_argsorted[i]) {
+      return max - i;
     }
-  } 
+  }
 }
 
-
-function render_scatterplot_states(data, X_field, Y_field, color_field) {
+function render_scatterplot_states(
+  data,
+  X_field,
+  Y_field,
+  color_field,
+  att = null
+) {
   //   X_field = "intime";
   //   Y_field = "hadm_id";
   //   color_field = "careunit";
   var currentZoom = 1;
-
-  const rect_dim = 6;
+  const att_scale = 1.5;
+  const rect_dim = 10;
   console.log(data.slice(0, 10));
 
   // Extract the variables from the data
@@ -490,15 +507,26 @@ function render_scatterplot_states(data, X_field, Y_field, color_field) {
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  var xScale = d3.scaleLinear().domain(d3.extent(xs)).range([0, width]);
+  var xScale = d3
+    .scaleLinear()
+    .domain([d3.min(xs) - 5, d3.max(xs) + 5])
+    .range([0, width]);
   // var xScale = d3.scaleTime().domain([new Date("2100-01-01"), new Date("2200-01-05")]).range([0, width]);
-  var yScale = d3.scaleLinear().domain(d3.extent(ys)).range([height, 0]);
+  var yScale = d3
+    .scaleLinear()
+    .domain([d3.min(ys) - 1, d3.max(ys) + 1])
+    .range([height, 0]);
   console.log(d3.extent(ys), d3.extent(xs));
-  var colorScale = d3
-    .scaleSequential()
-    .domain([-2, 2])
-    .interpolator(d3.interpolateViridis);
+  // var colorScale = d3
+  //   .scaleSequential()
+  //   .domain([-2, 2])
+  //   .interpolator(d3.interpolateRgb("blue", "red"));
 
+  var colorScale = d3
+    .scaleLinear()
+    .domain([-2, 0, 2])
+    .range(["blue", "white", "red"])
+    .interpolate(d3.interpolateRgb.gamma(1));
   //   render_legend_tsne(colorScale);
 
   console.log(xScale, yScale, colorScale);
@@ -528,38 +556,236 @@ function render_scatterplot_states(data, X_field, Y_field, color_field) {
     .style("pointer-events", "all")
     .attr("opacity", 0.1);
 
-  // Add the points
+  // *********************************************************************  Adding points
 
   allPoints = scatterplot
-    .selectAll(".point")
+    .append("g")
+    .attr("class", "g_allpoints")
+    .selectAll(".g_point")
     .data(data)
-    .enter()
+    .join("g")
+    .attr("class", "g_point")
+    .attr("transform", function (d) {
+      return `translate(${xScale(d[X_field])},${yScale(d[Y_field])})`;
+    });
+
+  // plot attention
+  if (att != null) {
+    atts = data.map((d) => +d[att]);
+    var att_colorScale = d3
+      .scaleLinear()
+      .domain([0, d3.max(atts)])
+      .range(["white", "green"])
+      .interpolate(d3.interpolateRgb.gamma(1));
+
+    var att_oppacity = d3
+      .scaleLinear()
+      .domain([0, d3.max(atts)])
+      .range([0, 1]);
+
+    allPoints
+      .append("rect")
+      .attr("class", "point_att")
+      .attr("x", function (d) {
+        return xScale(d[X_field]) * 0 - (rect_dim * att_scale) / 2;
+      })
+      .attr("y", function (d) {
+        return yScale(d[Y_field]) * 0 - (rect_dim * att_scale) / 2;
+      })
+      .attr("width", ((rect_dim * att_scale) / currentZoom) * 1)
+      .attr("height", ((rect_dim * att_scale) / currentZoom) * 1)
+      .attr("fill", function (d) {
+        return att_colorScale(d[att]);
+      })
+      .attr("opacity", function (d) {
+        return att_oppacity(d[att]);
+      });
+  }
+  // plot values
+  allPoints
     .append("rect")
-    .attr("class", "point")
+    .attr("class", "point_val")
     .attr("x", function (d) {
-      return xScale(d[X_field]);
+      return xScale(d[X_field]) * 0 - rect_dim / 2;
     })
     .attr("y", function (d) {
-      return yScale(d[Y_field]);
+      return yScale(d[Y_field]) * 0 - rect_dim / 2;
     })
-    .attr("width", rect_dim / currentZoom)
-    .attr("height", rect_dim / currentZoom)
+    .attr("width", (rect_dim / currentZoom) * 1)
+    .attr("height", (rect_dim / currentZoom) * 1)
     .attr("fill", function (d) {
       return colorScale(d[color_field]);
-    })
-    .on("click", function (d, i) {
-      var time = d[X_field]
-      var mods_sorted = argsort_values(data, time, d3.extent(ys))
-      scatterplot.selectAll('.point')
-        .data(data)
-        .attr("x", function (d) {
-          return xScale(d[X_field]);
-        })
-        .attr("y", function (d) {
-          return yScale(reorderMods(d3.extent(ys)[0], d3.extent(ys)[1], d[Y_field], mods_sorted));
-        })
+    });
 
-    })
+  // allPoints = scatterplot
+  //   .append("g")
+  //   .attr("class", "g_allpoints")
+  //   .selectAll(".g_point")
+  //   .data(data)
+  //   .join((enter) => {
+  //     let g = enter
+  //       .append("g")
+  //       .attr("class", "g_point")
+  //       .attr("transform", function (d) {
+  //         return `translate(${xScale(d[X_field])},${yScale(d[Y_field])})`;
+  //       });
+  //     // .append("circle")
+  //     // .attr("class", "circle_temp")
+  //     // .attr("r", 2)
+  //     // .attr("fill", "black");
+
+  //     // g2 = g
+  //     //   .append("g")
+  //     //   .attr("class", "g_temp")
+  //     //   .attr("transform", function (d) {
+  //     //     return `translate(${xScale(d[X_field])},${yScale(d[Y_field])})`;
+  //     //   })
+  //     //   .append("circle")
+  //     //   .attr("class", "circle_temp")
+  //     //   .attr("r", 2)
+  //     //   .attr("fill", "black");
+  //     // plot attention
+  //     if (att != null) {
+  //       atts = data.map((d) => +d[att]);
+  //       var att_colorScale = d3
+  //         .scaleLinear()
+  //         .domain([0, d3.max(atts)])
+  //         .range(["white", "green"])
+  //         .interpolate(d3.interpolateRgb.gamma(1));
+
+  //       var att_oppacity = d3
+  //         .scaleLinear()
+  //         .domain([0, d3.max(atts)])
+  //         .range([0, 1]);
+
+  //       g.append("rect")
+  //         .attr("class", "point_att")
+  //         .attr("x", function (d) {
+  //           return xScale(d[X_field]) * 0 - (rect_dim * att_scale) / 2;
+  //         })
+  //         .attr("y", function (d) {
+  //           return yScale(d[Y_field]) * 0 - (rect_dim * att_scale) / 2;
+  //         })
+  //         .attr("width", ((rect_dim * att_scale) / currentZoom) * 1)
+  //         .attr("height", ((rect_dim * att_scale) / currentZoom) * 1)
+  //         .attr("fill", function (d) {
+  //           return att_colorScale(d[att]);
+  //         })
+  //         .attr("opacity", function (d) {
+  //           return att_oppacity(d[att]);
+  //         });
+  //     }
+
+  //     // plot values
+  //     g.append("rect")
+  //       .attr("class", "point_val")
+  //       .attr("x", function (d) {
+  //         return xScale(d[X_field]) * 0 - rect_dim / 2;
+  //       })
+  //       .attr("y", function (d) {
+  //         return yScale(d[Y_field]) * 0 - rect_dim / 2;
+  //       })
+  //       .attr("width", (rect_dim / currentZoom) * 1)
+  //       .attr("height", (rect_dim / currentZoom) * 1)
+  //       .attr("fill", function (d) {
+  //         return colorScale(d[color_field]);
+  //       });
+
+  //     return g;
+  //   });
+
+  console.log("ALL POINTS", allPoints);
+
+  // *********************************************************************  Variable re-ordering
+  allPoints.on("click", function (d, i) {
+    var time = d[X_field];
+
+    var mods_sorted = argsort_values(data, time, d3.extent(ys));
+    console.log("mods_sorted", mods_sorted);
+
+    allPoints
+      .transition()
+      .duration(1000)
+      .attr("transform", function (d) {
+        temp = yScale(
+          reorderMods(
+            d3.extent(ys)[0],
+            d3.extent(ys)[1],
+            d[Y_field],
+            mods_sorted
+          )
+        );
+        console.log(
+          "temp",
+          reorderMods(
+            d3.extent(ys)[0],
+            d3.extent(ys)[1],
+            d[Y_field],
+            mods_sorted
+          ),
+          temp
+        );
+        return `translate(${xScale(d[X_field])},${temp})`;
+        return `translate(${xScale(d[X_field])},${yScale(d[Y_field])})`;
+      });
+
+    // d3.selectAll(".g_point")
+    //   .data(data)
+    //   .join()
+    //   .transition()
+    //   .duration(1000)
+    //   .attr("transform", function (d) {
+    //     temp = yScale(
+    //       reorderMods(
+    //         d3.extent(ys)[0],
+    //         d3.extent(ys)[1],
+    //         d[Y_field],
+    //         mods_sorted
+    //       )
+    //     );
+
+    //     // return `translate(${xScale(d[X_field])},${yScale(d[Y_field]) + 50})`;
+    //     return `translate(${xScale(d[X_field])},${temp})`;
+    //   });
+
+    // scatterplot
+    //   .selectAll(".g_point")
+    //   .data(data)
+    //   .transition()
+    //   .duration(1000)
+    //   .attr("y", function (d) {
+    //     return yScale(
+    //       reorderMods(
+    //         d3.extent(ys)[0],
+    //         d3.extent(ys)[1],
+    //         d[Y_field],
+    //         mods_sorted
+    //       ) -
+    //         (rect_dim / 2) * 0
+    //     );
+    //   });
+
+    // if (att != null) {
+    //   scatterplot
+    //     .selectAll(".point_att")
+    //     .data(data)
+    //     .transition()
+    //     .duration(1000)
+    //     .attr("y", function (d) {
+    //       return yScale(
+    //         reorderMods(
+    //           d3.extent(ys)[0],
+    //           d3.extent(ys)[1],
+    //           d[Y_field],
+    //           mods_sorted
+    //         ) -
+    //           (rect_dim * att_scale) / 2
+    //       );
+    //     });
+    // }
+  });
+  // *********************************************************************  TOOLTIP
+  allPoints
     .on("mouseover", function (d, i) {
       console.log("HOVER");
       console.log(
@@ -580,6 +806,10 @@ function render_scatterplot_states(data, X_field, Y_field, color_field) {
       //   divToolTip.transition().duration(50).style("opacity", 1);
 
       let num = `${X_field}: ${d[X_field]} <br> ${Y_field}: ${d[Y_field]} <br> ${color_field}: ${d[color_field]}`;
+
+      if (att != null) {
+        num += `<br> ${att}: ${d[att]}`;
+      }
 
       divToolTip
         .html(num)
@@ -608,7 +838,7 @@ function render_scatterplot_states(data, X_field, Y_field, color_field) {
   //   return num;
   // });
 
-  // Add zoom functionality
+  // *********************************************************************  ZOOMING
   zoomable_rect.call(
     d3
       .zoom()
@@ -618,7 +848,11 @@ function render_scatterplot_states(data, X_field, Y_field, color_field) {
       ])
       .scaleExtent([1 / 4, 8])
       .on("zoom", function () {
-        scatterplot.selectAll(".point").attr("transform", d3.event.transform);
+        scatterplot
+          .selectAll(".g_allpoints")
+          .attr("transform", d3.event.transform);
+        // scatterplot.selectAll(".g_temp").attr("transform", d3.event.transform);
+
         //   .attr("r", 3 / d3.event.transform.k);
         currentZoom = d3.event.transform.k;
         //   console.log("zooming");
@@ -649,11 +883,13 @@ function render_scatterplot_states(data, X_field, Y_field, color_field) {
         yAxis.scale(newY);
         scatterplot.select(".y-axis").call(yAxis);
 
-        allPoints
-          .transition()
-          .duration(20)
-          .attr("width", rect_dim / currentZoom)
-          .attr("height", rect_dim / currentZoom);
+        // scatterplot
+        //   .selectAll(".point")
+        //   .transition()
+        //   .duration(20)
+        //   .attr("width", rect_dim / currentZoom)
+        //   .attr("height", rect_dim / currentZoom);
+
         // scatterplot.select(".x-axis").call(d3.axisBottom(newXScale));
 
         // scatterplot.select(".y-axis").call(d3.axisLeft(newYScale));
@@ -713,7 +949,7 @@ function render_scatterplot_states(data, X_field, Y_field, color_field) {
       })
   );
 
-  //   Add brushing
+  // *********************************************************************  BRUSHING
   var brush = d3
     .brushX() // Add the brush feature using the d3.brush function
     .extent([
@@ -758,15 +994,23 @@ function render_scatterplot_states(data, X_field, Y_field, color_field) {
     // Update axis and circle position
     g_xAxis.transition().duration(1000).call(d3.axisBottom(xScale));
     console.log("DEB", xScale.domain());
+
     allPoints
       .transition()
       .duration(1000)
-      .attr("x", function (d) {
-        return xScale(d[X_field]);
-      })
-      .attr("y", function (d) {
-        return yScale(d[Y_field]);
+      .attr("transform", function (d) {
+        return `translate(${xScale(d[X_field])},${yScale(d[Y_field])})`;
       });
+
+    // // // allPoints
+    // // //   .transition()
+    // // //   .duration(1000)
+    // // //   .attr("x", function (d) {
+    // // //     return xScale(d[X_field]);
+    // // //   })
+    // // //   .attr("y", function (d) {
+    // // //     return yScale(d[Y_field]);
+    // // //   });
 
     //   //hide out of plot data
     //   allPoints
