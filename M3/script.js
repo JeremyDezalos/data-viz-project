@@ -2,8 +2,8 @@
 // import "core-js/actual/array/group-by";
 
 PATH = "../resources/sepsis1/core/transfers.csv";
-PATH = "../resources/tsne_datavis.json";
-PATH2 = "../resources/test.json";
+PATH = "http://localhost:8000/resources/tsne_datavis.json";
+PATH2 = "http://localhost:8000/resources/test.json";
 
 var PAT_ID = 0;
 const selected_hadm_ids = new Set(); // set of selected hadm_ids
@@ -550,7 +550,6 @@ function render_scatterplot_states(data, X_field, Y_field, color_field) {
     .on("click", function (d, i) {
       var time = d[X_field]
       var mods_sorted = argsort_values(data, time, d3.extent(ys))
-      yAxis = yAxis.tickValues(mods_sorted)
       scatterplot.selectAll('.point')
         .data(data)
         .attr("x", function (d) {
