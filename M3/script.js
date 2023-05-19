@@ -413,6 +413,41 @@ function render_scatterplot_tsne(data, X_field, Y_field, color_field) {
   }
 }
 
+
+function argsort(arr1, arr2){
+  return arr1.map((item, index) => [arr2[index], item]) // add the args to sort by
+  .sort(([arg1], [arg2]) => arg2 - arg1) // sort by the args
+  .map(([, item]) => item); // extract the sorted items
+} 
+
+function getOnlyOneColumn(data, column){
+  return data.map(e => e[column])
+}
+function argsort_values(data, t, ys){
+  var a = data.filter(function(d) {
+    return d.abs_time == t
+  }).map(({value, mod}) => ({value, mod}))
+  var values = getOnlyOneColumn(a, "value");
+  var mods = getOnlyOneColumn(a, "mod")
+  var values_argsorted = argsort(mods, values)
+  var bounds = d3.extent(ys)
+  for(let i = bounds[1]; i >= bounds[0]; --i){
+    if(!mods.includes(i)){
+      values_argsorted.push(i)
+    }
+  }
+  return values_argsorted
+}
+
+function reorderMods(min, max, mod, mods_argsorted){
+  for(let i = min; i <= max; ++i){
+    if(mod == mods_argsorted[i]){
+      return max - i
+    }
+  } 
+}
+
+
 function render_scatterplot_states(data, X_field, Y_field, color_field) {
   //   X_field = "intime";
   //   Y_field = "hadm_id";
@@ -511,6 +546,20 @@ function render_scatterplot_states(data, X_field, Y_field, color_field) {
     .attr("height", rect_dim / currentZoom)
     .attr("fill", function (d) {
       return colorScale(d[color_field]);
+    })
+    .on("click", function (d, i) {
+      var time = d[X_field]
+      var mods_sorted = argsort_values(data, time, d3.extent(ys))
+      yAxis = yAxis.tickValues(mods_sorted)
+      scatterplot.selectAll('.point')
+        .data(data)
+        .attr("x", function (d) {
+          return xScale(d[X_field]);
+        })
+        .attr("y", function (d) {
+          return yScale(reorderMods(d3.extent(ys)[0], d3.extent(ys)[1], d[Y_field], mods_sorted));
+        })
+
     })
     .on("mouseover", function (d, i) {
       console.log("HOVER");
