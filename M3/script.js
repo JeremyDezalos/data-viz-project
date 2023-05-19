@@ -82,7 +82,7 @@ function plot_states() {
       //   element.intime = new Date(element.intime);
       // });
       // return data;
-      return data["state"][PAT_ID];
+      return data[PAT_ID];
     })
     .then((data) => {
       console.log(data);
@@ -140,7 +140,7 @@ function render_scatterplot_tsne(data, X_field, Y_field, color_field) {
   console.log(d3.extent(ys), d3.extent(xs));
   var colorScale = d3.scaleOrdinal().domain(names).range(d3.schemeCategory10);
 
-  //   render_legend_tsne(colorScale);
+  render_legend_tsne(colorScale);
 
   console.log(xScale, yScale, colorScale);
   var xAxis = d3.axisBottom().scale(xScale).ticks(5, ".1f");

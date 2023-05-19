@@ -74,12 +74,13 @@ d3.json(PATH)
 
 d3.json(PATH2)
   .then(function (data) {
-    console.log(data);
+    console.log("dfsdf", data);
+    console.log(PAT_ID);
     // data.forEach((element) => {
     //   element.intime = new Date(element.intime);
     // });
     // return data;
-    return data["state"][0];
+    return data;
   })
   .then((data) => {
     console.log(data);
