@@ -216,7 +216,8 @@ function render_scatterplot_tsne(data, X_field, Y_field, color_field) {
       //Makes the new div appear on hover:
       //   divToolTip.transition().duration(50).style("opacity", 1);
 
-      let num = `${X_field}: ${d[X_field]} <br> ${Y_field}: ${d[Y_field]} <br> ${color_field}: ${d[color_field]}`;
+      // let num = `${X_field}: ${d[X_field]} <br> ${Y_field}: ${d[Y_field]} <br> ${color_field}: ${d[color_field]}`;
+      let num = `${d[color_field]}`;
 
       divToolTip
         .html(num)
@@ -728,8 +729,6 @@ function render_scatterplot_states(
         return `translate(${xScale(d[X_field])},${temp})`;
         return `translate(${xScale(d[X_field])},${yScale(d[Y_field])})`;
       });
-
-    
   });
   // *********************************************************************  TOOLTIP
   allPoints
@@ -752,10 +751,13 @@ function render_scatterplot_states(
       //Makes the new div appear on hover:
       //   divToolTip.transition().duration(50).style("opacity", 1);
 
-      let num = `${X_field}: ${d[X_field]} <br> ${Y_field}: ${d[Y_field]} <br> ${color_field}: ${d[color_field]}`;
+      // let num = `${X_field}: ${d[X_field]} <br> ${Y_field}: ${d[Y_field]} <br> ${color_field}: ${d[color_field]}`;
+      let num = `time: ${d[X_field].toFixed(1)} h <br> Variable: ${
+        d[Y_field]
+      } <br> Value: ${d[color_field].toFixed(2)}`;
 
       if (att != null) {
-        num += `<br> ${att}: ${d[att]}`;
+        num += `<br>Attention: ${d[att].toFixed(3)}`;
       }
 
       divToolTip
