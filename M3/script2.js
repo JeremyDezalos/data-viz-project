@@ -729,60 +729,7 @@ function render_scatterplot_states(
         return `translate(${xScale(d[X_field])},${yScale(d[Y_field])})`;
       });
 
-    // d3.selectAll(".g_point")
-    //   .data(data)
-    //   .join()
-    //   .transition()
-    //   .duration(1000)
-    //   .attr("transform", function (d) {
-    //     temp = yScale(
-    //       reorderMods(
-    //         d3.extent(ys)[0],
-    //         d3.extent(ys)[1],
-    //         d[Y_field],
-    //         mods_sorted
-    //       )
-    //     );
-
-    //     // return `translate(${xScale(d[X_field])},${yScale(d[Y_field]) + 50})`;
-    //     return `translate(${xScale(d[X_field])},${temp})`;
-    //   });
-
-    // scatterplot
-    //   .selectAll(".g_point")
-    //   .data(data)
-    //   .transition()
-    //   .duration(1000)
-    //   .attr("y", function (d) {
-    //     return yScale(
-    //       reorderMods(
-    //         d3.extent(ys)[0],
-    //         d3.extent(ys)[1],
-    //         d[Y_field],
-    //         mods_sorted
-    //       ) -
-    //         (rect_dim / 2) * 0
-    //     );
-    //   });
-
-    // if (att != null) {
-    //   scatterplot
-    //     .selectAll(".point_att")
-    //     .data(data)
-    //     .transition()
-    //     .duration(1000)
-    //     .attr("y", function (d) {
-    //       return yScale(
-    //         reorderMods(
-    //           d3.extent(ys)[0],
-    //           d3.extent(ys)[1],
-    //           d[Y_field],
-    //           mods_sorted
-    //         ) -
-    //           (rect_dim * att_scale) / 2
-    //       );
-    //     });
-    // }
+    
   });
   // *********************************************************************  TOOLTIP
   allPoints
