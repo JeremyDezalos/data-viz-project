@@ -2,10 +2,6 @@
 // import "core-js/actual/array/group-by";
 
 PATH = "../resources/sepsis1/core/transfers.csv";
-PATH = "http://localhost:8000/resources/tsne_datavis.json";
-PATH2 = "http://localhost:8000/resources/test.json";
-
-PATH = "../resources/sepsis1/core/transfers.csv";
 PATH = "../resources/tsne_datavis.json";
 PATH2 = "../resources/test.json";
 
@@ -452,9 +448,9 @@ function argsort_values(data, t, ys) {
 }
 
 function reorderMods(min, max, mod, mods_argsorted) {
-  for (let i = min; i <= max; ++i) {
+  for (let i = 0; i <= max - min; ++i) {
     if (mod == mods_argsorted[i]) {
-      return max - i;
+      return max + min - i - 1;
     }
   }
 }
@@ -723,7 +719,7 @@ function render_scatterplot_states(
             d[Y_field],
             mods_sorted
           ),
-          temp
+          temp, d[Y_field], d3.extent(ys)[0], d3.extent(ys)[1]
         );
         return `translate(${xScale(d[X_field])},${temp})`;
         return `translate(${xScale(d[X_field])},${yScale(d[Y_field])})`;

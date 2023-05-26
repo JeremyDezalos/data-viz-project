@@ -2,8 +2,8 @@
 // import "core-js/actual/array/group-by";
 
 PATH = "../resources/sepsis1/core/transfers.csv";
-PATH = "http://localhost:8000/resources/tsne_datavis.json";
-PATH2 = "http://localhost:8000/resources/test.json";
+PATH = "../resources/tsne_datavis.json";
+PATH2 = "../resources/test.json";
 
 var PAT_ID = 0;
 const selected_hadm_ids = new Set(); // set of selected hadm_ids
