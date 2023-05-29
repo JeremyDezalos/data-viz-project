@@ -104,7 +104,7 @@ function render_scatterplot_tsne(data, X_field, Y_field, color_field) {
   //   Y_field = "hadm_id";
   //   color_field = "careunit";
   var currentZoom = 1;
-
+  dict = orig_dict;
   console.log(data.slice(0, 10));
 
   // Extract the variables from the data
@@ -419,6 +419,13 @@ function render_scatterplot_tsne(data, X_field, Y_field, color_field) {
   }
 }
 
+const orig_dict = {"1": "HR", "2": "DBP", "3": "MAP", "4": "SBP", "5": "Resp", "6": "Temp", "7": "O2Sat", "8": "BUN", 
+"9": "Creatinine", "10": "Glucose", "11": "HCO3", "12": "Potassium", "13": "Magnesium", "14": "Hct", "15": "Platelets", 
+"16": "WBC", "17": "FiO2", "18": "PaCO2", "19": "pH", "20": "SaO2", "21": "Alkalinephos", "22": "AST", "23": "Bilirubin_total",
+ "24": "Bilirubin_direct", "25": "Lactate", "26": "TroponinI", "27": "Hgb", "28": "Chloride", "29": "Phosphate", "30": "Calcium", 
+ "31": "PTT", "32": "Fibrinogen"}
+let dict = orig_dict;
+
 function argsort(arr1, arr2) {
   return arr1
     .map((item, index) => [arr2[index], item]) // add the args to sort by
@@ -444,6 +451,10 @@ function argsort_values(data, t, ys) {
       values_argsorted.push(i);
     }
   }
+  dict = {};
+  for(let i = 0; i < values_argsorted.length; ++i){
+    dict[values_argsorted.length - i] = orig_dict[values_argsorted[i]]
+  }
   return values_argsorted;
 }
 
@@ -454,6 +465,8 @@ function reorderMods(min, max, mod, mods_argsorted) {
     }
   }
 }
+
+
 
 function render_scatterplot_states(
   data,
@@ -527,7 +540,7 @@ function render_scatterplot_states(
 
   console.log(xScale, yScale, colorScale);
   var xAxis = d3.axisBottom().scale(xScale).ticks(10, ".1f");
-  var yAxis = d3.axisLeft().scale(yScale).ticks(20, ".0f");
+  var yAxis = d3.axisLeft().scale(yScale).tickFormat(function(d) {return dict[d];}).ticks(32);
 
   var g_xAxis = scatterplot
     .append("g")
@@ -698,10 +711,12 @@ function render_scatterplot_states(
 
     var mods_sorted = argsort_values(data, time, d3.extent(ys));
     console.log("mods_sorted", mods_sorted);
-
+    yAxis.tickFormat(function(d) {return dict[d];}).ticks(32);
+    scatterplot.select(".y-axis").call(yAxis);
+    console.log("dsa", yAxis)
     allPoints
-      .transition()
-      .duration(1000)
+      //.transition()
+      //.duration(1000)
       .attr("transform", function (d) {
         temp = yScale(
           reorderMods(
@@ -711,18 +726,7 @@ function render_scatterplot_states(
             mods_sorted
           )
         );
-        console.log(
-          "temp",
-          reorderMods(
-            d3.extent(ys)[0],
-            d3.extent(ys)[1],
-            d[Y_field],
-            mods_sorted
-          ),
-          temp, d[Y_field], d3.extent(ys)[0], d3.extent(ys)[1]
-        );
         return `translate(${xScale(d[X_field])},${temp})`;
-        return `translate(${xScale(d[X_field])},${yScale(d[Y_field])})`;
       });
 
     
@@ -738,12 +742,6 @@ function render_scatterplot_states(
         xScale.range()
       );
       // console.log(d3.event.pageX, d3.event.pageY, d[X_field], d[Y_field]);
-
-      d3.select(this)
-        .transition()
-        .duration("50")
-        .attr("width", (1.5 * rect_dim) / currentZoom)
-        .attr("height", (1.5 * rect_dim) / currentZoom);
 
       //Makes the new div appear on hover:
       //   divToolTip.transition().duration(50).style("opacity", 1);
@@ -767,11 +765,6 @@ function render_scatterplot_states(
       // console.log(d3.event.pageX, d3.event.pageY, d[X_field], d[Y_field]);
     })
     .on("mouseout", function (d, i) {
-      d3.select(this)
-        .transition()
-        .duration("50")
-        .attr("width", rect_dim / currentZoom)
-        .attr("height", rect_dim / currentZoom);
       //Makes the new div disappear:
       divToolTip.transition().duration(50).style("opacity", 0);
     });
@@ -975,4 +968,5 @@ function render_scatterplot_states(
     //     })
     //     .style("opacity", "0");
   }
+  
 }
