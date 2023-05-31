@@ -6,7 +6,10 @@
 
     <link rel="stylesheet" type="text/css" href="styles.css" />
 
-    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <!-- <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script> -->
   </head>
   <body>
     <!-- <svg id="scatterplot"></svg> -->
@@ -19,7 +22,24 @@
     </div> -->
 
     <svg id="scatterplot_tsne"></svg>
-    <svg id="scatterplot_states"></svg>
+    <div
+      id="div_ridgechart"
+      style="display: flex; justify-content: center"
+    ></div>
+    <div
+      id="scatterplot_states_div"
+      style="display: flex; justify-content: center"
+    >
+      <!-- <svg id="scatterplot_states"></svg> -->
+      <svg id="scatterplot_states2"></svg>
+    </div>
+
+    <div id="stackedchart" style="display: flex; justify-content: center">
+      <!-- <svg viewBox="0 0 100 100" width="100px" height="100px">
+        <circle cx="50" cy="50" r="40" fill="blue" />
+      </svg> -->
+    </div>
+    <!-- <div id="statechart" class="divdiv"></div> -->
 
     <script src="script2.js"></script>
   </body>

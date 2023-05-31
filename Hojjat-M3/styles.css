@@ -1,5 +1,11 @@
 
 
+/* .divdiv{
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+} */
+
 div.tooltip-donut {
     position: absolute;
     text-align: center;
@@ -12,13 +18,23 @@ div.tooltip-donut {
     font-size: 1.3rem;
 }
 
-svg#scatterplot_states {
+
+/* svg#scatterplot_states {
+  background-color: #eee;
+  width: 900px;
+  height: 900px;
+  margin: 0 auto;
+  display: block;
+}
+ */
+
+/* svg#scatterplot_states {
     background-color: #eee;
-    width: 900px;
-    height: 900px;
+    width: 1000px;
+    height: 1000px;
     margin: 0 auto;
     display: block;
-  }
+  } */
   svg#scatterplot_tsne {
     background-color: #eee;
     width: 500px;
@@ -34,6 +50,24 @@ svg#scatterplot_states {
     display: block;
   }
 
+  /* svg#stackedchart_svg {
+    background-color: #aa0d0d;
+    width: 100px;
+    height: 900px;
+    margin: 0 auto;
+    display: block;
+  } */
+
+
+  .hover-line {
+    position: absolute;
+    pointer-events: none;
+    width: 100%;
+    height: 1px;
+    background-color: rgb(7, 7, 7);
+    display: none;
+    opacity: 0.5;
+  }
 
 
   
