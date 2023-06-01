@@ -30,6 +30,22 @@ body {
 	cursor: default;
 }
 
+.text0 {
+	position: relative;
+	height: 30%;
+	overflow: hidden;
+	font-size: 5vmin;
+	padding: 1em;
+	box-sizing: border-box;
+	color: hsl(0, 86%, 46%);
+	cursor: default;
+}
+
+#fadein {
+	opacity: 0;
+	transition: 4s opacity;
+}
+
 .panel:nth-child(1) {
 	background: #56789a;
 }

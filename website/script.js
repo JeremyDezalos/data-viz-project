@@ -5,6 +5,15 @@
 var pnls = document.querySelectorAll('.panel').length,
 	scdir, hold = false;
 
+var elements = document.getElementsByClassName('text0')
+for(var i = 0; i < elements.length; i++) {
+	window.setTimeout(fadein, i*1000, elements[i]);
+}
+
+function fadein(textElem) {
+	textElem.style.opacity = '1';
+}
+
 function _scrollY(obj) {
 	//block scrolling when in the new panel
 	if(!canCreatePanel){return;}
@@ -28,6 +37,7 @@ function _scrollY(obj) {
 	} else if (scdir === 'top') {
 		slength = 0;
 	}
+	console.log(slength)
 	//debounce wheel
 	if (hold === false) {
 		hold = true;
@@ -69,7 +79,7 @@ window.onbeforeunload = function () {
 
 var canCreatePanel = true;
 //create a panel
-async function createDiv(){
+/*async function createDiv(){
 	//can create only one panel
 	if(!canCreatePanel){return;}
 	var divReference = document.getElementById('divCreator');
@@ -106,12 +116,12 @@ async function destroy(elem){
 	
 	d.parentNode.removeChild(d);
 	
-}
+}*/
 
 //d3.json('http://localhost:8000/Hojjat-M3/test.json', createChart);
 
 
-function createChart(data) {
+/*function createChart(data) {
 
 	console.log(data)
 
@@ -193,7 +203,7 @@ function createChart(data) {
 	.attr("height", 100)
 	.attr("fill", function(d) {
 		return randomColor()
-	})*/
+	})
 }
 
 
@@ -270,7 +280,7 @@ d3.json('http://localhost:8000/Hojjat-M3/test.json', panel2);
 		.attr("width", x.bandwidth() )
 		.attr("height", y.bandwidth() )
 		.style("fill", function(d) { return myColor(d.value)} )
-*/
+
 
 }
 
@@ -414,4 +424,4 @@ function createHeatmap(data) {
 
 function update(min, max){
 	console.log(min + " " + max)
-}
+}*/
