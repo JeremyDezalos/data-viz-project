@@ -209,9 +209,9 @@ function argsort_values(data, t, ys) {
 }
 
 function reorderMods(min, max, mod, mods_argsorted) {
-  for (let i = min; i <= max; ++i) {
+  for (let i = 0; i <= max - min; ++i) {
     if (mod == mods_argsorted[i]) {
-      return max - i;
+      return max + min - i - 1;
     }
   }
 }
@@ -402,7 +402,7 @@ function render_scatter_tsne(
   render_legend_tsne(colorScale);
 
   var xAxis = d3.axisBottom().scale(xScale).ticks(5, ".1f");
-  var yAxis = d3.axisLeft().scale(yScale).tickFormat(function(d) {return dict[d];}).ticks(32);
+  var yAxis = d3.axisLeft().scale(yScale).ticks(5, ".1f");
 
   var g_xAxis = scatterplot
     .append("g")
@@ -734,7 +734,7 @@ function render_scatter_states(
 
   console.log(xScale, yScale, colorScale);
   var xAxis = d3.axisBottom().scale(xScale).ticks(10, ".0f");
-  var yAxis = d3.axisLeft().scale(yScale).ticks(20, ".0f");
+  var yAxis = d3.axisLeft().scale(yScale).tickFormat(function(d) {return dict[d];}).ticks(32);
 
   var g_xAxis = scatterplot
     .append("g")
@@ -920,7 +920,6 @@ function render_scatter_states(
     console.log("mods_sorted", mods_sorted);
     yAxis.tickFormat(function(d) {return dict[d];}).ticks(32);
     scatterplot.select(".y-axis").call(yAxis);
-    console.log("dsa", yAxis)
     allPoints
       .attr("transform", function (d) {
         temp = yScale(
