@@ -344,7 +344,7 @@ function render_legend_tsne(colorScale) {
 // load tsne data points and render them
 d3.json(PATH).then((data) => {
   // render tsne plot
-  svg_tsne = render_scatter_tsne(data, "x", "y", "color", {
+  [svg_tsne, svg_tsne_legend] = render_scatter_tsne(data, "x", "y", "color", {
     marginTop: 10, // top margin, in pixels
     marginRight: 10, // right margin, in pixels
     marginBottom: 40, // bottom margin, in pixels
@@ -353,8 +353,10 @@ d3.json(PATH).then((data) => {
     height: 400,
   });
 
-  const div_tsne2 = d3.select("#scatterplot_tsne_div").text("");
-  div_tsne2.node().appendChild(svg_tsne);
+  const div_tsne = d3.select("#scatterplot_tsne_div").text("");
+  div_tsne.node().appendChild(svg_tsne);
+  const div_tsne_legend = d3.select("#scatterplot_tsne_legend_div").text("");
+  div_tsne_legend.node().appendChild(svg_tsne_legend);
 });
 
 // This function is called when clicking on points in tsne
@@ -387,30 +389,43 @@ function plot_states() {
           new_data = data;
         }
         // scatter plot for states
-        svg_scatter = render_scatter_states(
-          new_data,
-          "abs_time",
-          "mod",
-          "value",
-          (att = "att"),
-          {
-            marginTop: 20, // top margin, in pixels
-            marginRight: 20, // right margin, in pixels
-            marginBottom: 60, // bottom margin, in pixels
-            marginLeft: 100, // left margin, in pixels
-            width: 900,
-            height: 450,
-            rect_dim: 10,
-          }
-        );
+        [svg_scatter, svg_scatter_legend, svg_att_legend] =
+          render_scatter_states(
+            new_data,
+            "abs_time",
+            "mod",
+            "value",
+            (att = "att"),
+            {
+              marginTop: 20, // top margin, in pixels
+              marginRight: 20, // right margin, in pixels
+              marginBottom: 60, // bottom margin, in pixels
+              marginLeft: 100, // left margin, in pixels
+              width: 900,
+              height: 450,
+              rect_dim: 10,
+            }
+          );
 
         // clear div and add the svg to the div
         const div_state_scatter = d3.select("#scatterplot_states_div").text("");
         div_state_scatter.node().appendChild(svg_scatter);
+
+        // legend for states
+        const div_state_scatter_legend = d3
+          .select("#scatterplot_states_legend_div")
+          .text("");
+        div_state_scatter_legend.node().appendChild(svg_scatter_legend);
+
+        // legend for attention
+        const div_att_scatter_legend = d3
+          .select("#scatterplot_att_legend_div")
+          .text("");
+        div_att_scatter_legend.node().appendChild(svg_att_legend);
       });
       // ************************** scatterplot for states **************************
       const rect_dim = 10; // dimension of the rectangles in pixels
-      svg_scatter = render_scatter_states(
+      [svg_scatter, svg_scatter_legend, svg_att_legend] = render_scatter_states(
         data,
         "abs_time",
         "mod",
@@ -428,12 +443,23 @@ function plot_states() {
       );
 
       // clear div and add the svg to the div
-      console.log("svg_scatter", svg_scatter);
       const div_state_scatter = d3.select("#scatterplot_states_div").text("");
       div_state_scatter.node().appendChild(svg_scatter);
 
+      // legend for states
+      const div_state_scatter_legend = d3
+        .select("#scatterplot_states_legend_div")
+        .text("");
+      div_state_scatter_legend.node().appendChild(svg_scatter_legend);
+
+      // legend for attention
+      const div_att_scatter_legend = d3
+        .select("#scatterplot_att_legend_div")
+        .text("");
+      div_att_scatter_legend.node().appendChild(svg_att_legend);
+
       // ************************** stacked area chart **************************
-      svg_stack = render_stackedArea(data, {
+      [svg_stack, svg_stack_legend] = render_stackedArea(data, {
         x: (d) => d.abs_time,
         y: (d) => d.value,
         z: (d) => d.mod,
@@ -451,6 +477,12 @@ function plot_states() {
       // clear div and add the svg to the div
       const div_stackedchart = d3.select("#stackedchart").text("");
       div_stackedchart.node().appendChild(svg_stack);
+
+      // add legend
+      const stackedarea_legend_div = d3
+        .select("#stackedarea_legend_div")
+        .text("");
+      stackedarea_legend_div.node().appendChild(svg_stack_legend);
     });
 }
 
@@ -742,6 +774,58 @@ function render_scatter_tsne(
     .style("pointer-events", "all")
     .attr("opacity", 0.1);
 
+  // ################################################ create a legend
+  var svg_tsne_legend = d3
+    .create("svg")
+    .attr("id", "svg_tsne_legend")
+    .attr("width", 200)
+    .attr("height", 100)
+    .style("border", "1px solid black");
+
+  // Append the SVG element to the DOM
+  d3.select("body").append(() => svg_tsne_legend.node());
+
+  console.log("LEG", colorScale.domain());
+
+  // Use the detached SVG element to create circles
+  svg_tsne_legend
+    .selectAll("circle")
+    .data(colorScale.domain())
+    .enter()
+    .append("circle")
+    .attr("cx", 10)
+    .attr("cy", (d, i) => i * 25 + 25)
+    .attr("r", rad_circle)
+    .attr("fill", (d) => colorScale(d));
+
+  svg_tsne_legend
+    .selectAll("circle2")
+    .data(["False Predictions"])
+    .enter()
+    .append("circle")
+    .attr("cx", 10)
+    .attr("cy", (d, i) => 2 * 25 + 25)
+    .attr("r", rad_circle + 2)
+    .attr("stroke", "red")
+    .attr("fill", "none");
+  // Add one label in the legend for each name.
+  svg_tsne_legend
+    .selectAll("mylabels")
+    .data(["Positive", "Negative", "False Predictions"])
+    .enter()
+    .append("text")
+    .attr("x", 30)
+    .attr("y", function (d, i) {
+      return 25 + i * 25;
+    }) // 100 is where the first dot appears. 25 is the distance between dots
+    .style("fill", "black")
+    .text(function (d) {
+      return d;
+    })
+    .attr("text-anchor", "left")
+    .style("alignment-baseline", "middle");
+  // ################################################ END create a legend
+
   // Add the points (False predictions)
 
   scatterplot
@@ -780,7 +864,8 @@ function render_scatter_tsne(
     })
     .attr("r", rad_circle / currentZoom)
     .attr("fill", function (d) {
-      return d.color.includes("Positives")
+      return d.color.includes("True Positives") ||
+        d.color.includes("False Negatives")
         ? colorScale("Positive")
         : colorScale("Negative");
     })
@@ -827,9 +912,16 @@ function render_scatter_tsne(
 
       PAT_ID = d3.selectAll("circle").nodes().indexOf(this);
 
-      plot_states();
-    });
+      // go to the scatter panel
 
+      plot_states();
+
+      setTimeout(() => {
+        document
+          .getElementById("Scatter_panel")
+          .scrollIntoView({ behavior: "smooth" });
+      }, 1500);
+    });
   // Add zoom functionality
   zoomable_rect.call(
     d3
@@ -959,7 +1051,7 @@ function render_scatter_tsne(
     //     .style("opacity", "0");
   }
 
-  return svg_holder.node();
+  return [svg_holder.node(), svg_tsne_legend.node()];
 }
 
 function render_scatter_states(
@@ -1545,7 +1637,112 @@ function render_scatter_states(
       });
   }
   // return Object.assign(svg_holder.node(), { scales: { color } });
-  return svg_holder.node();
+
+  // ################################################ Render legend
+
+  // Define the dimensions of the color bar
+  var barWidth = 200;
+  var barHeight = 20;
+
+  // Create an SVG element for the color bar
+  var svg_states_legend = d3
+    .select("body")
+    .append("svg")
+    .attr("width", barWidth)
+    .attr("height", barHeight * 2);
+  // .style("border", "1px solid black");
+
+  // Create a linear gradient for the color scale
+  var gradient = svg_states_legend
+    .append("defs")
+    .append("linearGradient")
+    .attr("id", "colorGradient")
+    .attr("x1", "0%")
+    .attr("x2", "100%");
+
+  // Add color stops to the gradient
+  gradient
+    .selectAll("stop")
+    .data(colorScale.range())
+    .enter()
+    .append("stop")
+    .attr("offset", function (d, i) {
+      return (i / (colorScale.range().length - 1)) * 100 + "%";
+    })
+    .attr("stop-color", function (d) {
+      return d;
+    });
+
+  // Render the color bar
+  svg_states_legend
+    .append("rect")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("width", barWidth)
+    .attr("height", barHeight)
+    .style("fill", "url(#colorGradient)");
+
+  // add text
+  svg_states_legend
+    .append("text")
+    .attr("x", 0)
+    .attr("y", barHeight)
+    .text("Low")
+    .style("font-size", "15px")
+    .attr("alignment-baseline", "hanging");
+  svg_states_legend
+    .append("text")
+    .attr("x", barWidth - 35)
+    .attr("y", barHeight)
+    .text("High")
+    .style("font-size", "15px")
+    .attr("alignment-baseline", "hanging");
+  // ################################################ end Render legend
+
+  // ################################################ Render legend for attention
+
+  const colorScale_att = d3
+    .scaleLinear()
+    .domain([-2, 2])
+    .range(["white", "green"])
+    .interpolate(d3.interpolateRgb);
+
+  // Create an SVG element for the color bar
+  var svg_att_legend = d3
+    .select("body")
+    .append("svg")
+    .attr("width", barWidth)
+    .attr("height", barHeight * 2);
+  // .style("border", "1px solid black");
+
+  // Create a linear gradient for the color scale
+  var gradient = svg_att_legend
+    .append("defs")
+    .append("linearGradient")
+    .attr("id", "colorGradient2")
+    .attr("x1", "0%")
+    .attr("y1", "0%")
+    .attr("x2", "100%")
+    .attr("y2", "0%");
+
+  gradient
+    .append("stop")
+    .attr("offset", "0%")
+    .attr("stop-color", colorScale_att(-2));
+
+  gradient
+    .append("stop")
+    .attr("offset", "100%")
+    .attr("stop-color", colorScale_att(2));
+
+  // Render the color bar
+  svg_att_legend
+    .append("rect")
+    .attr("width", barWidth)
+    .attr("height", barHeight)
+    .style("fill", "url(#colorGradient2)");
+
+  return [svg_holder.node(), svg_states_legend.node(), svg_att_legend.node()];
 }
 
 // Copyright 2021 Observable, Inc.
@@ -1628,6 +1825,7 @@ function render_stackedArea(
   console.log("xScale", xScale, xDomain, xRange, typeof X[0]);
   let yScale = yType(yDomain, yRange);
   const color = d3.scaleOrdinal(zDomain, colors);
+  console.log("COLOR", color.domain(), color.range());
   const xAxis = d3.axisBottom(xScale);
   // .ticks(width / 80, xFormat);
   // .tickSizeOuter(0)
@@ -1795,8 +1993,9 @@ function render_stackedArea(
     console.log("SLIDER");
     d3.select("#slider_area_text").text(
       // `abnormality(value) = abs(value)- ${selectedValue} S.D`
-      "abnormality(value)=" +
-        "`" +
+
+      "`" +
+        "\\text{abnormality(value)}=" +
         "|value|-" +
         selectedValue +
         " \\sigma" +
@@ -1876,5 +2075,43 @@ function render_stackedArea(
         (exit) => exit.transition().duration(500).remove()
       );
   }
-  return Object.assign(svg_hoder.node(), { scales: { color } });
+
+  // ############################################### Create Legend ###############################################
+  const legendData = color.domain().map((d, i) => {
+    return {
+      label: dict_vars[d],
+      color: color(i),
+    };
+  });
+
+  console.log("legendData", zDomain, color.domain(), color.range(), legendData);
+  const legend = d3.create("svg").attr("width", 150).attr("height", 200);
+  d3.select("body").append(() => legend.node());
+
+  const legendItems = legend
+    .selectAll("g")
+    .data(legendData)
+    .enter()
+    .append("g")
+    .attr("transform", (d, i) => `translate(0, ${i * 20})`);
+
+  legendItems
+    .append("rect")
+    .attr("width", 20)
+    .attr("height", 20)
+    .attr("fill", (d) => d.color);
+
+  legendItems
+    .append("text")
+    .attr("x", 30)
+    .attr("y", 15)
+    .text((d) => d.label);
+
+  // ############################################### end Create Legend ###############################################
+  console.log("legendData", legend.node());
+
+  return [
+    Object.assign(svg_hoder.node(), { scales: { color } }),
+    legend.node(),
+  ];
 }
