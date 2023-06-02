@@ -367,6 +367,7 @@ function plot_states() {
       return data[PAT_ID];
     })
     .then((data) => {
+      console.log("EEEE", data);
       // step 2: render plots for the specific patient
 
       // remove all the previous tooltips
@@ -396,7 +397,7 @@ function plot_states() {
             marginTop: 20, // top margin, in pixels
             marginRight: 20, // right margin, in pixels
             marginBottom: 60, // bottom margin, in pixels
-            marginLeft: 60, // left margin, in pixels
+            marginLeft: 100, // left margin, in pixels
             width: 900,
             height: 450,
             rect_dim: 10,
@@ -419,7 +420,7 @@ function plot_states() {
           marginTop: 20, // top margin, in pixels
           marginRight: 20, // right margin, in pixels
           marginBottom: 60, // bottom margin, in pixels
-          marginLeft: 60, // left margin, in pixels
+          marginLeft: 100, // left margin, in pixels
           width: 900,
           height: 450,
           rect_dim: 10,
@@ -440,7 +441,7 @@ function plot_states() {
         marginTop: 20, // top margin, in pixels
         marginRight: 20, // right margin, in pixels
         marginBottom: 60, // bottom margin, in pixels
-        marginLeft: 60, // left margin, in pixels
+        marginLeft: 100, // left margin, in pixels
         width: 900,
         height: 450,
         rect_dim: 10, // specifies the width hline
@@ -487,7 +488,7 @@ const orig_dict = {
   31: "PTT",
   32: "Fibrinogen",
 };
-let dict = orig_dict;
+// let dict = orig_dict;
 
 function argsort(arr1, arr2) {
   return arr1
@@ -686,7 +687,7 @@ function render_scatter_tsne(
   var names = data.map((d) => d[color_field]);
   names = ["Positive", "Negative"];
 
-  var tooltip = d3.select(".tooltip").style("opacity", 0);
+  // var tooltip = d3.select(".tooltip").style("opacity", 0);
 
   const svg_holder = d3
     .create("svg")
@@ -730,6 +731,7 @@ function render_scatter_tsne(
     .select("body")
     .append("div")
     .attr("class", "tooltip-donut")
+    .attr("id", "tooltip-tsne")
     .style("opacity", 0);
 
   zoomable_rect = scatterplot
@@ -798,6 +800,7 @@ function render_scatter_tsne(
       // let num = `${X_field}: ${d[X_field]} <br> ${Y_field}: ${d[Y_field]} <br> ${color_field}: ${d[color_field]}`;
       let num = `${d[color_field]}`;
 
+      console.log("tooltip", num, event.pageX, event.pageY);
       divToolTip
         .html(num)
         .style("left", event.pageX + 10 + "px")
@@ -980,7 +983,7 @@ function render_scatter_states(
   //   color_field = "careunit";
   let currentZoom = 1;
   const att_scale = 1.5;
-  console.log(data.slice(0, 10));
+  console.log("QQQQ", data.slice(0, 10));
 
   // Extract the variables from the data
   var ys = data.map((d) => +d[Y_field]);
@@ -1030,7 +1033,7 @@ function render_scatter_states(
   // var xScale = d3.scaleTime().domain([new Date("2100-01-01"), new Date("2200-01-05")]).range([0, width]);
   var yScale = d3
     .scaleLinear()
-    .domain([d3.min(ys) - 1, d3.max(ys) + 1])
+    .domain([0, Object.keys(dict_vars).length + 1])
     .range([height, 0]);
   console.log(d3.extent(ys), d3.extent(xs));
   // var colorScale = d3
@@ -1051,7 +1054,9 @@ function render_scatter_states(
     .axisLeft()
     .scale(yScale)
     .tickFormat(function (d) {
-      return dict[d];
+      if (d == 0) return "";
+      if (d == Object.keys(dict_vars).length + 1) return "";
+      return dict_vars[d - 1];
     })
     .ticks(32);
 
@@ -1088,6 +1093,7 @@ function render_scatter_states(
     .join("g")
     .attr("class", "g_point")
     .attr("transform", function (d) {
+      // console.log(d[X_field], d[Y_field], yScale(d[Y_field] + 1));
       return `translate(${xScale(d[X_field])},${yScale(d[Y_field])})`;
     });
 
@@ -1109,10 +1115,10 @@ function render_scatter_states(
       .append("rect")
       .attr("class", "point_att")
       .attr("x", function (d) {
-        return xScale(d[X_field]) * 0 - (rect_dim * att_scale) / 2;
+        return -(rect_dim * att_scale) / 2;
       })
       .attr("y", function (d) {
-        return yScale(d[Y_field]) * 0 - (rect_dim * att_scale) / 2;
+        return -(rect_dim * att_scale) / 2;
       })
       .attr("width", ((rect_dim * att_scale) / currentZoom) * 1)
       .attr("height", ((rect_dim * att_scale) / currentZoom) * 1)
@@ -1128,10 +1134,10 @@ function render_scatter_states(
     .append("rect")
     .attr("class", "point_val")
     .attr("x", function (d) {
-      return xScale(d[X_field]) * 0 - rect_dim / 2;
+      return -rect_dim / 2;
     })
     .attr("y", function (d) {
-      return yScale(d[Y_field]) * 0 - rect_dim / 2;
+      return -rect_dim / 2;
     })
     .attr("width", (rect_dim / currentZoom) * 1)
     .attr("height", (rect_dim / currentZoom) * 1)
@@ -1234,21 +1240,94 @@ function render_scatter_states(
   // *********************************************************************  Variable re-ordering
   allPoints.on("click", function (event, d) {
     var time = d[X_field];
-
     var mods_sorted = argsort_values(data, time, d3.extent(ys));
-    console.log("mods_sorted", mods_sorted);
+    console.log(
+      "mods_sorted",
+      mods_sorted,
+      mods_sorted.map((d) => dict_vars[d - 1]),
+      dict_vars
+    );
     yAxis
       .tickFormat(function (d) {
-        return dict[d];
+        temp2 = reorderMods(
+          d3.extent(ys)[0],
+          d3.extent(ys)[1],
+          d + 1,
+          mods_sorted
+        );
+        console.log(
+          "mods_sorted3",
+          d,
+          // dict_vars[d],
+          // temp2 - 1,
+          // dict_vars[temp2 - 1],
+          // mods_sorted,
+          mods_sorted.length - d - 1,
+          mods_sorted[mods_sorted.length - d - 1],
+          dict_vars[mods_sorted[mods_sorted.length - d - 1] - 1]
+          // mods_sorted
+        );
+
+        if (d == 0) return "";
+        if (d == Object.keys(dict_vars).length + 1) return "";
+        return dict_vars[mods_sorted[mods_sorted.length - d] - 1];
       })
-      .ticks(32);
+      .ticks(Object.keys(dict_vars).length);
     scatterplot.select(".y-axis").call(yAxis);
-    allPoints.attr("transform", function (d) {
+    allPoints
+      .transition()
+      .duration(500)
+      .attr("transform", function (d) {
+        temp = yScale(
+          reorderMods(
+            d3.extent(ys)[0],
+            d3.extent(ys)[1],
+            d[Y_field],
+            mods_sorted
+          )
+        );
+
+        return `translate(${xScale(d[X_field])},${temp})`;
+      });
+
+    // transition of clicked point only
+    d3.select(this).attr("transform", function (d) {
       temp = yScale(
         reorderMods(d3.extent(ys)[0], d3.extent(ys)[1], d[Y_field], mods_sorted)
       );
+
       return `translate(${xScale(d[X_field])},${temp})`;
     });
+
+    // console.log(
+    //   "mods_sorted2",
+    //   d3.extent(ys)[0],
+    //   d3.extent(ys)[1],
+    //   d[Y_field],
+    //   mods_sorted,
+    //   reorderMods(d3.extent(ys)[0], d3.extent(ys)[1], 2, mods_sorted)
+    // );
+
+    // var time = d[X_field];
+    // var mods_sorted = argsort_values(data, time, d3.extent(ys));
+    // console.log(
+    //   "mods_sorted",
+    //   mods_sorted,
+    //   mods_sorted.map((d) => dict_vars[d - 1])
+    // );
+    // // yAxis
+    // //   .tickFormat(function (d) {
+    // //     return dict_vars[d - 1];
+    // //   })
+    // //   .ticks(Object.keys(dict_vars).length);
+    // // scatterplot.select(".y-axis").call(yAxis);
+    // allPoints.attr("transform", function (d) {
+    //   temp = yScale(
+    //     reorderMods(d3.extent(ys)[0], d3.extent(ys)[1], d[Y_field], mods_sorted)
+    //   );
+
+    //   return `translate(${xScale(d[X_field])},${temp})`;
+    // });
   });
 
   // *********************************************************************  Hover Line
@@ -1297,7 +1376,7 @@ function render_scatter_states(
 
       // let num = `${X_field}: ${d[X_field]} <br> ${Y_field}: ${d[Y_field]} <br> ${color_field}: ${d[color_field]}`;
       let num = `time: ${d3.format(".1f")(d[X_field])} h <br> Variable: ${
-        d[Y_field]
+        dict_vars[d[Y_field] - 1]
       } <br> Value: ${d3.format(".2f")(d[color_field])}`;
 
       if (att != null) {
@@ -1633,7 +1712,18 @@ function render_stackedArea(
       selected_mod = Z[selected_id];
       d3.select(this).attr("opacity", 1);
       const x_shift = d3.pointer(event)[0];
-      console.log("stackedchart mouseover", x_shift, d);
+      console.log(
+        "stackedchart mouseover",
+        x_shift,
+        d,
+        selected_id,
+        selected_mod,
+        Y[selected_id],
+        X[selected_id],
+        X,
+        Y,
+        Z
+      );
 
       d3.selectAll(".vline")
         .attr("height", height)
@@ -1680,7 +1770,7 @@ function render_stackedArea(
         );
 
       // show tooltip
-      temp_text = dict_vars[selected_mod];
+      temp_text = dict_vars[selected_mod - 1];
       tooltip
         .html(temp_text)
         .style("left", event.pageX + 10 + "px")
