@@ -478,11 +478,11 @@ function plot_states() {
       const div_stackedchart = d3.select("#stackedchart").text("");
       div_stackedchart.node().appendChild(svg_stack);
 
-      // add legend
-      const stackedarea_legend_div = d3
-        .select("#stackedarea_legend_div")
-        .text("");
-      stackedarea_legend_div.node().appendChild(svg_stack_legend);
+      //   // add legend
+      //   const stackedarea_legend_div = d3
+      //     .select("#stackedarea_legend_div")
+      //     .text("");
+      //   stackedarea_legend_div.node().appendChild(svg_stack_legend);
     });
 }
 
