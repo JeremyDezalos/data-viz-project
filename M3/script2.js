@@ -169,6 +169,13 @@ function plot_states() {
     });
 }
 
+const orig_dict = {"1": "HR", "2": "DBP", "3": "MAP", "4": "SBP", "5": "Resp", "6": "Temp", "7": "O2Sat", "8": "BUN", 
+"9": "Creatinine", "10": "Glucose", "11": "HCO3", "12": "Potassium", "13": "Magnesium", "14": "Hct", "15": "Platelets", 
+"16": "WBC", "17": "FiO2", "18": "PaCO2", "19": "pH", "20": "SaO2", "21": "Alkalinephos", "22": "AST", "23": "Bilirubin_total",
+ "24": "Bilirubin_direct", "25": "Lactate", "26": "TroponinI", "27": "Hgb", "28": "Chloride", "29": "Phosphate", "30": "Calcium", 
+ "31": "PTT", "32": "Fibrinogen"}
+let dict = orig_dict;
+
 function argsort(arr1, arr2) {
   return arr1
     .map((item, index) => [arr2[index], item]) // add the args to sort by
@@ -193,6 +200,10 @@ function argsort_values(data, t, ys) {
     if (!mods.includes(i)) {
       values_argsorted.push(i);
     }
+  }
+  dict = {};
+  for(let i = 0; i < values_argsorted.length; ++i){
+    dict[values_argsorted.length - i] = orig_dict[values_argsorted[i]]
   }
   return values_argsorted;
 }
@@ -355,7 +366,7 @@ function render_scatter_tsne(
   };
   const rad_circle = 6;
   let currentZoom = 1;
-
+  dict = orig_dict;
   // Extract the variables from the data
   var ys = data.map((d) => +d[Y_field]);
   var xs = data.map((d) => +d[X_field]);
@@ -391,7 +402,7 @@ function render_scatter_tsne(
   render_legend_tsne(colorScale);
 
   var xAxis = d3.axisBottom().scale(xScale).ticks(5, ".1f");
-  var yAxis = d3.axisLeft().scale(yScale).ticks(5, ".1f");
+  var yAxis = d3.axisLeft().scale(yScale).tickFormat(function(d) {return dict[d];}).ticks(32);
 
   var g_xAxis = scatterplot
     .append("g")
@@ -907,10 +918,10 @@ function render_scatter_states(
 
     var mods_sorted = argsort_values(data, time, d3.extent(ys));
     console.log("mods_sorted", mods_sorted);
-
+    yAxis.tickFormat(function(d) {return dict[d];}).ticks(32);
+    scatterplot.select(".y-axis").call(yAxis);
+    console.log("dsa", yAxis)
     allPoints
-      .transition()
-      .duration(1000)
       .attr("transform", function (d) {
         temp = yScale(
           reorderMods(
@@ -920,18 +931,7 @@ function render_scatter_states(
             mods_sorted
           )
         );
-        console.log(
-          "temp",
-          reorderMods(
-            d3.extent(ys)[0],
-            d3.extent(ys)[1],
-            d[Y_field],
-            mods_sorted
-          ),
-          temp
-        );
         return `translate(${xScale(d[X_field])},${temp})`;
-        return `translate(${xScale(d[X_field])},${yScale(d[Y_field])})`;
       });
   });
 
