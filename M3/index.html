@@ -7,9 +7,7 @@
     <link rel="stylesheet" type="text/css" href="styles.css" />
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
-
-    <!-- <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
-    <script defer src="https://pyscript.net/latest/pyscript.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   </head>
   <body>
     <!-- <svg id="scatterplot"></svg> -->
@@ -21,25 +19,63 @@
       <svg id="tsne_legend" height="300" width="450"></svg>
     </div> -->
 
-    <svg id="scatterplot_tsne"></svg>
+    <!-- <svg id="scatterplot_tsne"></svg> -->
     <div
-      id="div_ridgechart"
+      id="scatterplot_tsne_div2"
       style="display: flex; justify-content: center"
     ></div>
+
+    <div
+      id="scatterplot_tsne_div"
+      style="display: flex; justify-content: center"
+    ></div>
+
+    <!-- ************************************** Scatter for states -->
+    <!-- slider for scatter_state -->
+    <input
+      type="range"
+      name="slider_scatter_state"
+      id="slider_scatter_state"
+      min="0.0"
+      max="3"
+      value="0"
+      step="0.1"
+    />
+    <p id="slider_state_text">
+      <!-- abs(value-mean)>0 S.D -->
+      `|value|> 0 \sigma `
+    </p>
+
+    <!-- $$\sum_{n=1}^{N} \frac{1}{n^2} = \frac{\pi^2}{6}$$ -->
+
+    <!-- checkBO    <p id="slider_state_text">abs(value-mean)>0 S.D</p>
+X for imputation -->
+    <input type="checkbox" id="chbox_impute" name="myCheckbox" value="false" />
+    <label for="myCheckbox">Impute</label>
+
     <div
       id="scatterplot_states_div"
       style="display: flex; justify-content: center"
-    >
-      <!-- <svg id="scatterplot_states"></svg> -->
-      <svg id="scatterplot_states2"></svg>
-    </div>
+    ></div>
 
-    <div id="stackedchart" style="display: flex; justify-content: center">
-      <!-- <svg viewBox="0 0 100 100" width="100px" height="100px">
-        <circle cx="50" cy="50" r="40" fill="blue" />
-      </svg> -->
-    </div>
-    <!-- <div id="statechart" class="divdiv"></div> -->
+    <!-- ************************************** Stacked Area Chart -->
+    <!-- slider -->
+    <input
+      type="range"
+      name="slider_stackedAreaChart"
+      id="slider_stackedAreaChart"
+      min="0.0"
+      max="3.0"
+      value="1"
+      step="0.5"
+    />
+    <p id="slider_area_text">
+      <!-- abnormality(value) = abs(value)- 1 S.D -->
+
+      abnormality(value)= ` |value|- 1 \sigma `
+    </p>
+
+    <div id="stackedchart" style="display: flex; justify-content: center"></div>
 
     <script src="script2.js"></script>
   </body>
