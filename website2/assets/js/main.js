@@ -295,14 +295,12 @@ d3.json(PATH_dict).then((data) => {
 });
 
 function render_legend_tsne(colorScale) {
-  console.log("rendering legend");
   const svg_holder = d3.select("#legend_tsne");
   var svg_tsne = d3.select("#tsne_legend");
 
   // Usually you have a color scale in your chart already
   var keys = ["Mister A", "Brigitte", "Eleonore", "Another friend", "Batman"];
   keys = colorScale.domain();
-  console.log(keys);
 
   var color = d3.scaleOrdinal().domain(keys).range(d3.schemeSet2);
 
@@ -364,12 +362,9 @@ function plot_states() {
   d3.json(PATH2)
     .then(function (data) {
       // step 1: return the data for the selected patient
-      console.log(PAT_ID, data);
-
       return data[PAT_ID];
     })
     .then((data) => {
-      console.log("EEEE", data);
       // step 2: render plots for the specific patient
 
       // remove all the previous tooltips
@@ -402,7 +397,7 @@ function plot_states() {
               marginBottom: 60, // bottom margin, in pixels
               marginLeft: 100, // left margin, in pixels
               width: 900,
-              height: 450,
+              height: 400,
               rect_dim: 10,
             }
           );
@@ -434,10 +429,10 @@ function plot_states() {
         {
           marginTop: 20, // top margin, in pixels
           marginRight: 20, // right margin, in pixels
-          marginBottom: 60, // bottom margin, in pixels
+          marginBottom: 0, // bottom margin, in pixels
           marginLeft: 100, // left margin, in pixels
           width: 900,
-          height: 450,
+          height: 400,
           rect_dim: 10,
         }
       );
@@ -469,7 +464,7 @@ function plot_states() {
         marginBottom: 60, // bottom margin, in pixels
         marginLeft: 100, // left margin, in pixels
         width: 900,
-        height: 450,
+        height: 350,
         rect_dim: 10, // specifies the width hline
         xType: d3.scaleLinear,
       });
@@ -477,12 +472,6 @@ function plot_states() {
       // clear div and add the svg to the div
       const div_stackedchart = d3.select("#stackedchart").text("");
       div_stackedchart.node().appendChild(svg_stack);
-
-      //   // add legend
-      //   const stackedarea_legend_div = d3
-      //     .select("#stackedarea_legend_div")
-      //     .text("");
-      //   stackedarea_legend_div.node().appendChild(svg_stack_legend);
     });
 }
 
@@ -563,7 +552,6 @@ function reorderMods(min, max, mod, mods_argsorted) {
 }
 
 function ffill3(data, selectedValue = 1, compute_abs = true) {
-  console.log("ffill3", selectedValue);
   n_time = "abs_time";
   n_var = "mod";
   n_val = "value";
@@ -577,21 +565,6 @@ function ffill3(data, selectedValue = 1, compute_abs = true) {
   unique_vars = [...new Set(data.map((d) => d[n_var]))];
   unique_vars = Array.from({ length: max_vars }, (_, index) => index);
   const updatedData = data;
-  // Mapping from variable string to index
-  // const mapping = {};
-  // unique_vars.forEach((value, index) => {
-  //   mapping[value] = index;
-  // });
-
-  // const updatedData = data.map((obj) => {
-  //   return { ...obj, [n_var]: mapping[obj[n_var]] };
-  // });
-
-  // unique_vars = [...new Set(updatedData.map((d) => d[n_var]))];
-
-  console.log(data);
-  console.log(unique_times);
-  console.log(unique_vars);
   // step 2: sort data by time and variable
   data.sort((a, b) => {
     // Sort by time in ascending order
@@ -602,7 +575,6 @@ function ffill3(data, selectedValue = 1, compute_abs = true) {
     // If time is the same, sort by variable string
     return a[n_var] - b[n_var];
   });
-  console.log("sorted", data);
   // step 3: iterate over unique times and variables
 
   for (time of unique_times) {
@@ -627,14 +599,6 @@ function ffill3(data, selectedValue = 1, compute_abs = true) {
             att: 0,
           });
         } else {
-          // if found data point, impute with the value of the data point
-          // temp[0][n_val] =
-          //   Math.abs(temp[0][n_val]) > 1 ? Math.abs(temp[0][n_val]) - 1 : 0;
-
-          // temp[0][n_time] = time;
-
-          //   imputedData.push(temp[0]);
-
           val2save =
             Math.abs(temp[temp.length - 1][n_val]) > selectedValue
               ? Math.abs(temp[temp.length - 1][n_val]) - selectedValue
@@ -649,10 +613,6 @@ function ffill3(data, selectedValue = 1, compute_abs = true) {
           });
         }
       } else {
-        // if found data point, impute with the value of the data point
-        // Math.abs(d.value) > 1
-        // ? (Math.abs(d.value) - 1) * Math.sign(d.value) * Math.sign(d.value)
-        // : 0;
         val2save =
           Math.abs(temp[temp.length - 1][n_val]) > selectedValue
             ? Math.abs(temp[temp.length - 1][n_val]) - selectedValue
@@ -718,9 +678,6 @@ function render_scatter_tsne(
   var xs = data.map((d) => +d[X_field]);
   var names = data.map((d) => d[color_field]);
   names = ["Positive", "Negative"];
-
-  // var tooltip = d3.select(".tooltip").style("opacity", 0);
-
   const svg_holder = d3
     .create("svg")
     .attr("id", "scatterplot_tsne")
@@ -738,7 +695,6 @@ function render_scatter_tsne(
     .scaleLinear()
     .domain([d3.min(xs) - 5, d3.max(xs) + 5])
     .range([0, width]);
-  // var xScale = d3.scaleTime().domain([new Date("2100-01-01"), new Date("2200-01-05")]).range([0, width]);
   var yScale = d3
     .scaleLinear()
     .domain([d3.min(ys) - 5, d3.max(ys) + 5])
@@ -784,8 +740,6 @@ function render_scatter_tsne(
 
   // Append the SVG element to the DOM
   d3.select("body").append(() => svg_tsne_legend.node());
-
-  console.log("LEG", colorScale.domain());
 
   // Use the detached SVG element to create circles
   svg_tsne_legend
@@ -872,20 +826,13 @@ function render_scatter_tsne(
     .on("mouseover", function (event, d) {
       i = 0;
 
-      console.log("tsne HOVER", i);
-
       d3.select(this)
         .transition()
         .duration("50")
         .attr("stroke", "black")
         .attr("r", (rad_circle + 1) / currentZoom);
-      //Makes the new div appear on hover:
-      //   divToolTip.transition().duration(50).style("opacity", 1);
-
-      // let num = `${X_field}: ${d[X_field]} <br> ${Y_field}: ${d[Y_field]} <br> ${color_field}: ${d[color_field]}`;
+        
       let num = `${d[color_field]}`;
-
-      console.log("tooltip", num, event.pageX, event.pageY);
       divToolTip
         .html(num)
         .style("left", event.pageX + 10 + "px")
@@ -893,10 +840,6 @@ function render_scatter_tsne(
         .transition()
         .duration(50)
         .style("opacity", 1);
-
-      // console.log(divToolTip.attr("style"));
-
-      // console.log(d3.event.pageX, d3.event.pageY, d[X_field], d[Y_field]);
     })
     .on("mouseout", function (d, i) {
       d3.select(this)
@@ -908,8 +851,6 @@ function render_scatter_tsne(
       divToolTip.transition().duration(50).style("opacity", 0);
     })
     .on("click", function (event, d) {
-      console.log("CLICK", d3.pointer(event));
-
       PAT_ID = d3.selectAll("circle").nodes().indexOf(this);
 
       // go to the scatter panel
@@ -953,11 +894,6 @@ function render_scatter_tsne(
         // recover the new scale
         var newX = event.transform.rescaleX(xScale);
         var newY = event.transform.rescaleY(yScale);
-
-        // yScale.domain(d3.event.transform.rescaleY(yScale).domain());
-        console.log("Zooming AFTER", newX.domain(), newY.domain());
-        console.log(currentZoom);
-
         // update axis
         xAxis.scale(newX);
         scatterplot.select(".x-axis").call(xAxis);
@@ -970,14 +906,10 @@ function render_scatter_tsne(
   var brush = d3
     .brushX() // Add the brush feature using the d3.brush function
     .extent([
-      //   [margin.left, height + margin.top],
-      //   [width + margin.left, height + margin.top + margin.bottom],
       [0, height],
       [width, height + margin.bottom],
     ]) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
     .on("end", updateChart); // Each time the brush selection changes, trigger the 'updateChart' function
-
-  // scatterplot.append("g").attr("class", "brush").call(brush);
 
   // A function that set idleTimeOut to null
   var idleTimeout;
@@ -992,33 +924,16 @@ function render_scatter_tsne(
     // If no selection, back to initial coordinate. Otherwise, update X axis domain
     if (!extent) {
       if (!idleTimeout) return (idleTimeout = setTimeout(idled, 350)); // This allows to wait a little bit
-      console.log("brush DC", d3.extent(xs));
-
-      console.log("xScale.domain() prev", xScale.domain());
       xScale.domain(d3.extent(xs));
-
-      console.log("xScale.domain() after", xScale.domain());
-
-      console.log("DEB", xScale.domain());
-      // console.log("extent", extent[0], extent[1]);
     } else {
-      console.log("tsne brushed");
-      console.log("xScale.domain() prev", xScale.domain());
-      // console.log("extent", extent[0], extent[1]);
-
       xScale.domain([
         xScale.invert(extent[0] - margin.left * 0),
         xScale.invert(extent[1] - margin.left * 0),
       ]);
-      console.log("xScale.domain() after", xScale.domain());
       scatterplot.select(".brush").call(brush.move, null); // This remove the grey brush area as soon as the selection has been done
     }
 
     // Update axis and circle position
-
-    console.log("xScale.domain() out", xScale.domain());
-    console.log(allPoints);
-    console.log(g_xAxis);
     g_xAxis.transition().duration(1000).call(d3.axisBottom(xScale));
     allPoints
       .transition()
@@ -1029,26 +944,6 @@ function render_scatter_tsne(
       .attr("cy", function (d) {
         return yScale(d[Y_field]);
       });
-
-    //   //hide out of plot data
-    //   allPoints
-    //     .filter(function (d) {
-    //       return (
-    //         d[X_field] > xScale.domain()[1] ||
-    //         d[X_field] < xScale.domain()[0] ||
-    //         d[Y_field] > yScale.domain()[1] ||
-    //         d[Y_field] < yScale.domain()[0]
-    //       );
-    //     })
-    //     .transition()
-    //     .duration(1000)
-    //     .attr("cx", function (d) {
-    //       return xScale(d[X_field]) + margin.left;
-    //     })
-    //     .attr("cy", function (d) {
-    //       return yScale(d[Y_field]) + margin.top;
-    //     })
-    //     .style("opacity", "0");
   }
 
   return [svg_holder.node(), svg_tsne_legend.node()];
@@ -1070,32 +965,15 @@ function render_scatter_states(
     rect_dim = 10,
   }
 ) {
-  //   X_field = "intime";
-  //   Y_field = "hadm_id";
-  //   color_field = "careunit";
   let currentZoom = 1;
   const att_scale = 1.5;
-  console.log("QQQQ", data.slice(0, 10));
 
   // Extract the variables from the data
   var ys = data.map((d) => +d[Y_field]);
   var xs = data.map((d) => +d[X_field]);
   var names = data.map((d) => d[color_field]);
-
-  console.log("HHHHHH", names);
-
   var tooltip = d3.select(".tooltip").style("opacity", 0);
-
-  //   const mouseover = (event, d) => {
-  //     tooltip.style("opacity", 1).style("left", event.pageX + 10 + "px");
-  //     console.log(d);
-  //   };
-
-  //   const mouseleave = (event, d) => {
-  //     tooltip.style("opacity", 0);
-  //   };
-
-  console.log("width", width, "height", height);
+  
   const svg_holder = d3
     .create("svg")
     .attr("id", "scatterplot_states2")
@@ -1108,11 +986,6 @@ function render_scatter_states(
     bottom: marginBottom,
     left: marginLeft,
   };
-  // var width = parseInt(svg_holder.style("width")) - margin.left - margin.right;
-  // var height =
-  //   parseInt(svg_holder.style("height")) - margin.top - margin.bottom;
-
-  console.log("NAMES", width, height);
   // Set up the plot
   var scatterplot = svg_holder
     .append("g")
@@ -1122,17 +995,10 @@ function render_scatter_states(
     .scaleLinear()
     .domain([d3.min(xs) - 5, d3.max(xs) + 5])
     .range([0, width]);
-  // var xScale = d3.scaleTime().domain([new Date("2100-01-01"), new Date("2200-01-05")]).range([0, width]);
   var yScale = d3
     .scaleLinear()
     .domain([0, Object.keys(dict_vars).length + 1])
     .range([height, 0]);
-  console.log(d3.extent(ys), d3.extent(xs));
-  // var colorScale = d3
-  //   .scaleSequential()
-  //   .domain([-2, 2])
-  //   .interpolator(d3.interpolateRgb("blue", "red"));
-
   var colorScale = d3
     .scaleLinear()
     .domain([-2, 0, 2])
@@ -1140,7 +1006,6 @@ function render_scatter_states(
     .interpolate(d3.interpolateRgb.gamma(1));
   //   render_legend_tsne(colorScale);
 
-  console.log(xScale, yScale, colorScale);
   var xAxis = d3.axisBottom().scale(xScale).ticks(10, ".0f");
   var yAxis = d3
     .axisLeft()
@@ -1185,7 +1050,6 @@ function render_scatter_states(
     .join("g")
     .attr("class", "g_point")
     .attr("transform", function (d) {
-      // console.log(d[X_field], d[Y_field], yScale(d[Y_field] + 1));
       return `translate(${xScale(d[X_field])},${yScale(d[Y_field])})`;
     });
 
@@ -1237,21 +1101,14 @@ function render_scatter_states(
       return colorScale(d[color_field]);
     });
 
-  console.log("ALL POINTS", allPoints);
-
   // *********************************************************************  SLIDER
   d3.select("#slider_scatter_state").on("change", function (d) {
     selectedValue = this.value;
     d3.select("#slider_state_text").text(
       "`" + "|value|>" + selectedValue + " \\sigma" + "`"
-      // `abs(value-mean)>${selectedValue} S.D and`
     );
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "slider_state_text"]); // Render MathJax equation
 
-    // data2 = data.map((d) => {
-    //   d.value = 2;
-    //   return d;
-    // });
     new_data = data.map((d) => {
       return {
         ...d, // Shallow cloning each object in the array
@@ -1262,7 +1119,6 @@ function render_scatter_states(
       };
     });
 
-    console.log("selectedValue", selectedValue, data);
     d3.selectAll(".point_val")
       .data(new_data)
       .transition()
@@ -1272,73 +1128,10 @@ function render_scatter_states(
       });
   });
 
-  // // *********************************************************************  check boxe - to impute
-
-  // d3.select("#chbox_impute").on("change", function () {
-  //   if (this.checked) {
-  //     // do this
-
-  //     selectedValue = d3.select("#slider_scatter_state").attr("value");
-  //     new_data = ffill3(data, 0, (compute_abs = false));
-
-  //     console.log("checked");
-  //   } else {
-  //     // do that
-  //     console.log("not checked");
-
-  //     new_data = data;
-  //   }
-
-  //   console.log("QQQ", new_data.length, data.length, new_data);
-  //   // g_all = d3.selectAll(".g_allpoints");
-  //   // g_all
-  //   //   .selectAll(".g_point")
-  //   //   .data(new_data)
-  //   //   .join(
-  //   //     (enter) =>
-  //   //       enter
-  //   //         .append("g")
-  //   //         .attr("class", "g_point")
-  //   //         .attr("transform", function (d) {
-  //   //           return `translate(${xScale(d[X_field])},${yScale(d[Y_field])})`;
-  //   //         })
-  //   //         .append("rect")
-  //   //         .attr("class", "point_val")
-  //   //         .transition()
-  //   //         .duration(500)
-  //   //         .attr("x", function (d) {
-  //   //           return xScale(d[X_field]) * 0 - rect_dim / 2;
-  //   //         })
-  //   //         .attr("y", function (d) {
-  //   //           return yScale(d[Y_field]) * 0 - rect_dim / 2;
-  //   //         })
-  //   //         .attr("width", (rect_dim / currentZoom) * 1)
-  //   //         .attr("height", (rect_dim / currentZoom) * 1)
-  //   //         .attr("stroke", "black")
-  //   //         .attr("fill", function (d) {
-  //   //           return colorScale(d[color_field]);
-  //   //         }),
-  //   //     (update) =>
-  //   //       update
-  //   //         .transition()
-  //   //         .duration(500)
-  //   //         .attr("fill", function (d) {
-  //   //           return colorScale(d[color_field]);
-  //   //         }),
-  //   //     (exit) => exit.transition().duration(500).remove()
-  //   //   );
-  //   // Store the value or perform any other action based on the checkbox state
-  // });
   // *********************************************************************  Variable re-ordering
   allPoints.on("click", function (event, d) {
     var time = d[X_field];
     var mods_sorted = argsort_values(data, time, d3.extent(ys));
-    console.log(
-      "mods_sorted",
-      mods_sorted,
-      mods_sorted.map((d) => dict_vars[d - 1]),
-      dict_vars
-    );
     yAxis
       .tickFormat(function (d) {
         temp2 = reorderMods(
@@ -1346,18 +1139,6 @@ function render_scatter_states(
           d3.extent(ys)[1],
           d + 1,
           mods_sorted
-        );
-        console.log(
-          "mods_sorted3",
-          d,
-          // dict_vars[d],
-          // temp2 - 1,
-          // dict_vars[temp2 - 1],
-          // mods_sorted,
-          mods_sorted.length - d - 1,
-          mods_sorted[mods_sorted.length - d - 1],
-          dict_vars[mods_sorted[mods_sorted.length - d - 1] - 1]
-          // mods_sorted
         );
 
         if (d == 0) return "";
@@ -1367,8 +1148,6 @@ function render_scatter_states(
       .ticks(Object.keys(dict_vars).length);
     scatterplot.select(".y-axis").call(yAxis);
     allPoints
-      .transition()
-      .duration(500)
       .attr("transform", function (d) {
         temp = yScale(
           reorderMods(
@@ -1390,36 +1169,6 @@ function render_scatter_states(
 
       return `translate(${xScale(d[X_field])},${temp})`;
     });
-
-    // console.log(
-    //   "mods_sorted2",
-    //   d3.extent(ys)[0],
-    //   d3.extent(ys)[1],
-    //   d[Y_field],
-    //   mods_sorted,
-    //   reorderMods(d3.extent(ys)[0], d3.extent(ys)[1], 2, mods_sorted)
-    // );
-
-    // var time = d[X_field];
-    // var mods_sorted = argsort_values(data, time, d3.extent(ys));
-    // console.log(
-    //   "mods_sorted",
-    //   mods_sorted,
-    //   mods_sorted.map((d) => dict_vars[d - 1])
-    // );
-    // // yAxis
-    // //   .tickFormat(function (d) {
-    // //     return dict_vars[d - 1];
-    // //   })
-    // //   .ticks(Object.keys(dict_vars).length);
-    // // scatterplot.select(".y-axis").call(yAxis);
-    // allPoints.attr("transform", function (d) {
-    //   temp = yScale(
-    //     reorderMods(d3.extent(ys)[0], d3.extent(ys)[1], d[Y_field], mods_sorted)
-    //   );
-
-    //   return `translate(${xScale(d[X_field])},${temp})`;
-    // });
   });
 
   // *********************************************************************  Hover Line
@@ -1444,17 +1193,7 @@ function render_scatter_states(
   // *********************************************************************  TOOLTIP
   allPoints
     .on("mouseover", function (event, d) {
-      console.log("HOVER");
-      // d3.selectAll(".g_point").transition().duration(50).attr("width", 100);
       d3.select(this).transition().duration(50).attr("fill", "black");
-
-      console.log(
-        d[X_field],
-        xScale(d[X_field]),
-        xScale.domain(),
-        xScale.range()
-      );
-      // console.log(d3.event.pageX, d3.event.pageY, d[X_field], d[Y_field]);
 
       d3.select(this)
         .transition()
@@ -1463,10 +1202,6 @@ function render_scatter_states(
         .attr("height", (1.5 * rect_dim) / currentZoom)
         .attr("fill", "black");
 
-      //Makes the new div appear on hover:
-      //   divToolTip.transition().duration(50).style("opacity", 1);
-
-      // let num = `${X_field}: ${d[X_field]} <br> ${Y_field}: ${d[Y_field]} <br> ${color_field}: ${d[color_field]}`;
       let num = `time: ${d3.format(".1f")(d[X_field])} h <br> Variable: ${
         dict_vars[d[Y_field] - 1]
       } <br> Value: ${d3.format(".2f")(d[color_field])}`;
@@ -1483,15 +1218,6 @@ function render_scatter_states(
         .duration(50)
         .style("opacity", 1);
 
-      // console.log(divToolTip.attr("style"));
-
-      // console.log(d3.event.pageX, d3.event.pageY, d[X_field], d[Y_field]);
-
-      // adding the hover line
-      // hoverLine.style("display", null);
-
-      console.log("ret", d3.select(this).data(), d3.select(this).node());
-
       x_shift = parseFloat(
         d3
           .select(this)
@@ -1500,7 +1226,6 @@ function render_scatter_states(
       );
 
       y_shift = parseFloat(d3.select(this).attr("transform").split(",")[1]);
-      console.log("x_shift", x_shift, y_shift);
       d3.selectAll(".vline")
         .attr("height", height)
         .attr("opacity", 0.2)
@@ -1520,8 +1245,7 @@ function render_scatter_states(
 
       if (d3.select("#stackedchart")["_groups"][0].length == 1) {
       }
-      // d3.selectAll('.hover-line').attr('x',0).attr('opacity',1).style('display',null).attr('height',100).attr('y',50).attr('transform',`translate(${x},0)`)
-    })
+      })
     .on("mouseout", function (d, i) {
       d3.select(this)
         .transition()
@@ -1530,13 +1254,7 @@ function render_scatter_states(
         .attr("height", rect_dim / currentZoom);
       //Makes the new div disappear:
       divToolTip.transition().duration(50).style("opacity", 0);
-      // hoverLine.style("display", "none");
     });
-  // .append("title")
-  // .text(function (d) {
-  //   let num = `id: ${d[Y_field]} \n name: ${d[color_field]} \n timestamp: ${d[X_field]}`;
-  //   return num;
-  // });
 
   // *********************************************************************  ZOOMING
   const zoom = d3
@@ -1562,15 +1280,9 @@ function render_scatter_states(
 
       currentZoom = event.transform.k;
 
-      console.log(xScale.domain(), yScale.domain());
-
       // recover the new scale
       var newX = event.transform.rescaleX(xScale);
       var newY = event.transform.rescaleY(yScale);
-
-      // yScale.domain(event.transform.rescaleY(yScale).domain());
-      console.log("AFTER", newX.domain(), newY.domain());
-      console.log(currentZoom);
 
       // update axis
       xAxis.scale(newX);
@@ -1585,12 +1297,9 @@ function render_scatter_states(
   var brush = d3
     .brushX() // Add the brush feature using the d3.brush function
     .extent([
-      //   [margin.left, height + margin.top],
-      //   [width + margin.left, height + margin.top + margin.bottom],
       [0, height],
       [width, height + margin.bottom],
     ]); // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
-  // .on("end", updateChart); // Each time the brush selection changes, trigger the 'updateChart' function
 
   scatterplot.append("g").attr("class", "brush").call(brush);
 
@@ -1602,32 +1311,23 @@ function render_scatter_states(
 
   // A function that update the chart for given boundaries
   function updateChart(event) {
-    console.log("updateChart");
     extent = event.selection;
-    console.log("extent1", extent);
 
     // If no selection, back to initial coordinate. Otherwise, update X axis domain
     if (!extent) {
       if (!idleTimeout) return (idleTimeout = setTimeout(idled, 350)); // This allows to wait a little bit
       xScale.domain(d3.extent(xs));
-      console.log("DC", d3.extent(xs));
     } else {
       xScale.domain([
         xScale.invert(extent[0] - margin.left * 0),
         xScale.invert(extent[1] - margin.left * 0),
       ]);
 
-      console.log("DATA", data);
-
-      console.log([xScale.invert(extent[0]), xScale.invert(extent[1])]);
-      console.log("extent", extent[0], extent[1]);
-
       scatterplot.select(".brush").call(brush.move, null); // This remove the grey brush area as soon as the selection has been done
     }
 
     // Update axis and circle position
     g_xAxis.transition().duration(1000).call(d3.axisBottom(xScale));
-    console.log("DEB", xScale.domain());
 
     allPoints
       .transition()
@@ -1636,12 +1336,10 @@ function render_scatter_states(
         return `translate(${xScale(d[X_field])},${yScale(d[Y_field])})`;
       });
   }
-  // return Object.assign(svg_holder.node(), { scales: { color } });
-
   // ################################################ Render legend
 
   // Define the dimensions of the color bar
-  var barWidth = 200;
+  var barWidth = 100;
   var barHeight = 20;
 
   // Create an SVG element for the color bar
@@ -1650,7 +1348,6 @@ function render_scatter_states(
     .append("svg")
     .attr("width", barWidth)
     .attr("height", barHeight * 2);
-  // .style("border", "1px solid black");
 
   // Create a linear gradient for the color scale
   var gradient = svg_states_legend
@@ -1713,7 +1410,6 @@ function render_scatter_states(
     .append("svg")
     .attr("width", barWidth)
     .attr("height", barHeight * 2);
-  // .style("border", "1px solid black");
 
   // Create a linear gradient for the color scale
   var gradient = svg_att_legend
@@ -1778,7 +1474,6 @@ function render_stackedArea(
 ) {
   let data_filled = ffill3(data, 1);
   // data_filled = data;
-  console.log("HIIIIIIIIIIIIIIIII");
   // Compute values.
   data_filled.forEach((d) => {
     d.value = d.value + 0.000001;
@@ -1786,8 +1481,6 @@ function render_stackedArea(
   const X = d3.map(data_filled, x);
   let Y = d3.map(data_filled, y);
   const Z = d3.map(data_filled, z);
-  console.log(X, Y, Z);
-
   // Compute default x- and z-domains, and unique the z-domain.
   if (xDomain === undefined) xDomain = [d3.min(X) - 5, d3.max(X) + 5];
   if (zDomain === undefined) zDomain = Z;
@@ -1822,10 +1515,8 @@ function render_stackedArea(
   xRange = [0, width];
   yRange = [height, 0];
   const xScale = xType(xDomain, xRange);
-  console.log("xScale", xScale, xDomain, xRange, typeof X[0]);
   let yScale = yType(yDomain, yRange);
   const color = d3.scaleOrdinal(zDomain, colors);
-  console.log("COLOR", color.domain(), color.range());
   const xAxis = d3.axisBottom(xScale);
   // .ticks(width / 80, xFormat);
   // .tickSizeOuter(0)
@@ -1859,21 +1550,6 @@ function render_stackedArea(
         .attr("x2", width)
         .attr("stroke-opacity", 0.1)
     );
-  // .call((g) =>
-  //   g
-  //     .append("text")
-  //     .attr("x", -marginLeft)
-  //     .attr("y", 10)
-  //     .attr("fill", "currentColor")
-  //     .attr("text-anchor", "start")
-  //     .text(yLabel)
-  // );
-
-  // stackedchart
-  //   .append("g")
-  //   .attr("class", "x-axis")
-  //   .attr("transform", `translate(0,${height})`)
-  //   .call(xAxis);
 
   g_zoomable = stackedchart.append("g").attr("id", "stack_zoomable");
 
@@ -1886,7 +1562,6 @@ function render_stackedArea(
     .attr("fill", ([{ i }]) => color(Z[i]))
     .attr("d", area)
     .attr("opacity", 0.5);
-  // area_g.append("title").text(([{ i }]) => Z[i]);
 
   // ********** update if slider changes **********
 
@@ -1910,63 +1585,15 @@ function render_stackedArea(
       selected_mod = Z[selected_id];
       d3.select(this).attr("opacity", 1);
       const x_shift = d3.pointer(event)[0];
-      console.log(
-        "stackedchart mouseover",
-        x_shift,
-        d,
-        selected_id,
-        selected_mod,
-        Y[selected_id],
-        X[selected_id],
-        X,
-        Y,
-        Z
-      );
-
-      d3.selectAll(".vline")
-        .attr("height", height)
-        .attr("opacity", 0.2)
-        .transition()
-        .duration(200)
-        .attr(
-          "transform",
-          // d3.select(this).attr("transform")
-          `translate(${x_shift - rect_dim / 2}, 0)`
-
-          // `translate(${xScale(d[X_field]) - (rect_dim / 2) * 0}, 0)`
-        );
 
       iii = d3
         .selectAll(".g_point")
         .data()
         .findIndex((x) => x.mod == selected_mod);
-      console.log("wtf", iii, selected_mod);
       found_datapoint = d3.selectAll(".g_point").nodes()[iii];
-      console.log("wtf", d3.select(found_datapoint).attr("transform"));
       const y_shift = parseFloat(
         d3.select(found_datapoint).attr("transform").split(",")[1]
       );
-
-      console.log(
-        "wtf found id-",
-        selected_id,
-        d3.select(found_datapoint).attr("transform"),
-        y_shift
-      );
-      d3.selectAll(".hline")
-        .attr("height", 10)
-        .attr("width", width)
-        .attr("opacity", 0.2)
-        .transition()
-        .duration(200)
-        .attr(
-          "transform",
-          // d3.select(this).attr("transform")
-          `translate(0,${y_shift - rect_dim / 2})`
-
-          // `translate(${xScale(d[X_field]) - (rect_dim / 2) * 0}, 0)`
-        );
-
       // show tooltip
       temp_text = dict_vars[selected_mod - 1];
       tooltip
@@ -1990,10 +1617,7 @@ function render_stackedArea(
 
   d3.select("#slider_stackedAreaChart").on("change", function (d) {
     selectedValue = this.value;
-    console.log("SLIDER");
     d3.select("#slider_area_text").text(
-      // `abnormality(value) = abs(value)- ${selectedValue} S.D`
-
       "`" +
         "\\text{abnormality(value)}=" +
         "|value|-" +
@@ -2007,15 +1631,6 @@ function render_stackedArea(
     data_filled.forEach((d) => {
       d.value = d.value + 0.000001;
     });
-
-    console.log(
-      "qwer",
-      data.filter((d) => Math.abs(d.value) > selectedValue),
-      data_filled.filter((d) => Math.abs(d.value) > 0.001),
-      data.length,
-      data_filled.length,
-      selectedValue
-    );
     update_stacked_area(data_filled);
   });
 
@@ -2084,7 +1699,6 @@ function render_stackedArea(
     };
   });
 
-  console.log("legendData", zDomain, color.domain(), color.range(), legendData);
   const legend = d3.create("svg").attr("width", 150).attr("height", 200);
   d3.select("body").append(() => legend.node());
 
@@ -2108,8 +1722,6 @@ function render_stackedArea(
     .text((d) => d.label);
 
   // ############################################### end Create Legend ###############################################
-  console.log("legendData", legend.node());
-
   return [
     Object.assign(svg_hoder.node(), { scales: { color } }),
     legend.node(),
